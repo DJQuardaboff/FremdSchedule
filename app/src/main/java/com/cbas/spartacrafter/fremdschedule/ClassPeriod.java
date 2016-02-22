@@ -4,6 +4,8 @@
 
 package com.cbas.spartacrafter.fremdschedule;
 
+import android.support.v4.util.Pair;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -22,33 +24,47 @@ public class ClassPeriod {
     private final Date endTime;
     private String title;
     private int periodNum;
-    private static final long[] NORMAL_DAY_PERIOD_START_TIMES = {
-            300000, //7:30-8:20
-            3600000, //8:25-9:15
-            7200000, //9:20-10:10
-            10500000, //10:15-11:05
-            13800000, //11:10-12:00
-            17100000, //12:05-12:55
-            20400000, //13:00-13:50
-            23700000, //13:55-14:45
+    private static final int[][][] NORMAL_DAY_PERIOD_TIMES = {
+            {{7,30}, {8,20}},
+            {{8,25}, {9,15}},
+            {{9,20}, {10,10}},
+            {{10,15}, {11,05}},
+            {{11,10}, {12,00}},
+            {{12,05}, {12,55}},
+            {{13,00}, {13,50}},
+            {{13,55}, {14,45}},
     }; // 7:25-14:45
-    private static final long[] LATE_START_DAY_PERIOD_START_TIMES = {
-            300000, //8:45-14:45
-            300000, //8:45-14:45
-            300000, //8:45-14:45
-            300000, //8:45-14:45
-            300000, //8:45-14:45
-            300000, //8:45-14:45
-            300000, //8:45-14:45
-            300000, //8:45-14:45
+    private static final int[][][] LATE_START_DAY_PERIOD_TIMES = {
+            {{},{},},
+            {{},{},},
+            {{},{},},
+            {{},{},},
+            {{},{},},
+            {{},{},},
+            {{},{},},
+            {{},{},},
     }; // 8:45-14:45
-    private static final long[] HALF_DAY_PERIOD_START_TIMES = {
-            15900000
+    private static final int[][][] LATE_START_ASSEMBLY_DAY_PERIOD_TIMES = {
+            {{},{},},
+            {{},{},},
+            {{},{},},
+            {{},{},},
+            {{},{},},
+            {{},{},},
+            {{},{},},
+            {{},{},},
+    }; // 8:45-14:40
+    private static final long[] HALF_DAY_PERIOD_TIMES = {
+
     }; // 7:25-11:50
 
     public ClassPeriod(String title, int periodNum, int periodType) {
         Calendar c = Calendar.getInstance();
+        c.set(Calendar.);
+        c.set(Calendar.MINUTE, );
+        c = Calendar.getInstance();
         c.set(Calendar.HOUR_OF_DAY, );
+        c.set(Calendar.MINUTE, );
         this.title = title;
         this.periodNum = periodNum;
     }
