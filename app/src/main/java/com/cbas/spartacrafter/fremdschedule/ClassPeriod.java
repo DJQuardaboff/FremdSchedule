@@ -5,6 +5,7 @@
 package com.cbas.spartacrafter.fremdschedule;
 
 import android.support.v4.util.Pair;
+import android.view.View;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,60 +14,63 @@ import java.io.InputStream;
 import java.util.Calendar;
 import java.util.Date;
 
-public class ClassPeriod {
+public class ClassPeriod{
     public static final int DAY_TYPE_NORMAL = 0;
     public static final int DAY_TYPE_LATE_START = 1;
     public static final int DAY_TYPE_HALF = 2;
     public static final int PERIOD_TYPE_FIRST_HALF = 0;
     public static final int PERIOD_TYPE_SECOND_HALF = 2;
     public static final int PERIOD_TYPE_ALL = 1;
+    private static final int[][][][] PERIOD_START_END_TIMES = {
+            {
+                    {{7, 30}, {8, 20}},
+                    {{8, 25}, {9, 15}},
+                    {{9, 20}, {10, 10}},
+                    {{10, 15}, {11, 5}},
+                    {{11, 10}, {12, 0}},
+                    {{12, 5}, {12, 55}},
+                    {{13, 0}, {13, 50}},
+                    {{13, 55}, {14, 45}},
+            }, // Normal Day 7:30-14:45
+            {
+                    {{8, 50}, {9, 30}},
+                    {{9, 35}, {10, 15}},
+                    {{10, 20}, {11, 0}},
+                    {{11, 5}, {11, 45}},
+                    {{11, 50}, {12, 30}},
+                    {{12, 35}, {13, 15}},
+                    {{13, 20}, {14, 0}},
+                    {{14, 5}, {14, 45}},
+            }, // Late Start Day 8:50-14:45
+            {
+                    {{7, 30}, {7, 58}},
+                    {{8, 3}, {8, 32}},
+                    {{8, 37}, {9, 5}},
+                    {{9, 10}, {9, 38}},
+                    {{9, 43}, {10, 11}},
+                    {{10, 16}, {10, 44}},
+                    {{10, 49}, {11, 17}},
+                    {{11, 22}, {11, 50}},
+            }, // Half Day 7:30-11:50
+    };
     private final Date startTime;
     private final Date endTime;
     private String title;
     private int periodNum;
-    private static final int[][][] NORMAL_DAY_PERIOD_TIMES = {
-            {{7,30}, {8,20}},
-            {{8,25}, {9,15}},
-            {{9,20}, {10,10}},
-            {{10,15}, {11,05}},
-            {{11,10}, {12,00}},
-            {{12,05}, {12,55}},
-            {{13,00}, {13,50}},
-            {{13,55}, {14,45}},
-    }; // 7:25-14:45
-    private static final int[][][] LATE_START_DAY_PERIOD_TIMES = {
-            {{},{},},
-            {{},{},},
-            {{},{},},
-            {{},{},},
-            {{},{},},
-            {{},{},},
-            {{},{},},
-            {{},{},},
-    }; // 8:45-14:45
-    private static final int[][][] LATE_START_ASSEMBLY_DAY_PERIOD_TIMES = {
-            {{},{},},
-            {{},{},},
-            {{},{},},
-            {{},{},},
-            {{},{},},
-            {{},{},},
-            {{},{},},
-            {{},{},},
-    }; // 8:45-14:40
-    private static final long[] HALF_DAY_PERIOD_TIMES = {
-
-    }; // 7:25-11:50
+    private int periodType;
 
     public ClassPeriod(String title, int periodNum, int periodType) {
         Calendar c = Calendar.getInstance();
-        c.set(Calendar.);
-        c.set(Calendar.MINUTE, );
+        c.set(Calendar.HOUR_OF_DAY, PERIOD_START_END_TIMES[periodType][periodNum][0][0]);
+        c.set(Calendar.MINUTE, PERIOD_START_END_TIMES[periodType][periodNum][0][1]);
+        startTime = c.getTime();
         c = Calendar.getInstance();
-        c.set(Calendar.HOUR_OF_DAY, );
-        c.set(Calendar.MINUTE, );
+        c.set(Calendar.HOUR_OF_DAY, PERIOD_START_END_TIMES[periodType][periodNum][1][0]);
+        c.set(Calendar.MINUTE, PERIOD_START_END_TIMES[periodType][periodNum][1][1]);
+        endTime = c.getTime();
         this.title = title;
         this.periodNum = periodNum;
+        this.periodType = periodType;
     }
 
     public Date getStartTime() {

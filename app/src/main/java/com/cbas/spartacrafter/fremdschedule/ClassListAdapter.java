@@ -5,26 +5,40 @@
 package com.cbas.spartacrafter.fremdschedule;
 
 import android.database.DataSetObserver;
+import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebResourceRequest;
 import android.widget.ListAdapter;
 import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
 
 public class ClassListAdapter implements ListAdapter {
     ClassPeriod[] classPeriods;
 
     public ClassListAdapter(int type) {
         try {
+            HttpURLConnection httpConnection = (HttpsURLConnection) new URL("http://fhs.d211.org/").openConnection();
             classPeriods = ClassPeriod.getClassPeriodsFromFile(new File(MainActivity.getContext().getFilesDir(), "classPeriods.txt"));
+        } catch (MalformedURLException e) {
+            Toast.makeText(MainActivity.getContext(), "Could not connect to http://fhs.d211.org/.", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+            throw new RuntimeException("Could not connect to http://fhs.d211.org/: " + e.getMessage());
         } catch (IOException e) {
-            Toast.makeText(MainActivity.getContext(), "Could not open class name file.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.getContext(), "Could not open class period name file.", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
             throw new RuntimeException("Could not open class period name file: " + e.getMessage());
         }
     }
+
+
 
     @Override
     public boolean areAllItemsEnabled() {
@@ -86,6 +100,6 @@ public class ClassListAdapter implements ListAdapter {
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return classPeriods.length == 0;
     }
 }
