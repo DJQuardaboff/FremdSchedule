@@ -12,6 +12,9 @@ import android.webkit.WebResourceRequest;
 import android.widget.ListAdapter;
 import android.widget.Toast;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -25,12 +28,16 @@ public class ClassListAdapter implements ListAdapter {
 
     public ClassListAdapter(int type) {
         try {
-            HttpURLConnection httpConnection = (HttpsURLConnection) new URL("http://fhs.d211.org/").openConnection();
-            classPeriods = ClassPeriod.getClassPeriodsFromFile(new File(MainActivity.getContext().getFilesDir(), "classPeriods.txt"));
-        } catch (MalformedURLException e) {
+            Document doc = Jsoup.connect("http://fhs.d211.org/").get();
+            doc.getElementById("bell-row-1");
+        } catch (IOException e) {
             Toast.makeText(MainActivity.getContext(), "Could not connect to http://fhs.d211.org/.", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
             throw new RuntimeException("Could not connect to http://fhs.d211.org/: " + e.getMessage());
+        }
+
+        try {
+            classPeriods = ClassPeriod.getClassPeriodsFromFile(new File(MainActivity.getContext().getFilesDir(), "classPeriods.txt"));
         } catch (IOException e) {
             Toast.makeText(MainActivity.getContext(), "Could not open class period name file.", Toast.LENGTH_SHORT).show();
             e.printStackTrace();

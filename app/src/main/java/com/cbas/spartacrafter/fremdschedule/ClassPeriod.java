@@ -15,12 +15,12 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class ClassPeriod{
-    public static final int DAY_TYPE_NORMAL = 0;
-    public static final int DAY_TYPE_LATE_START = 1;
-    public static final int DAY_TYPE_HALF = 2;
-    public static final int PERIOD_TYPE_FIRST_HALF = 0;
-    public static final int PERIOD_TYPE_SECOND_HALF = 2;
-    public static final int PERIOD_TYPE_ALL = 1;
+    public static final String SCHEDULE_TYPE_NORMAL = "Normal Schedule";
+    public static final String SCHEDULE_TYPE_LATE_START = "Late Start";
+    public static final String SCHEDULE_TYPE_HALF = 2;
+    public static final int HALF_TYPE_FIRST = 0;
+    public static final int HALF_TYPE_SECOND = 2;
+    public static final int HALF_TYPE_BOTH = 1;
     private static final int[][][][] PERIOD_START_END_TIMES = {
             {
                     {{7, 30}, {8, 20}},
@@ -89,14 +89,14 @@ public class ClassPeriod{
         return null;
         */
         return new ClassPeriod[] {
-                new ClassPeriod("Period 1", 1, PERIOD_TYPE_ALL),
-                new ClassPeriod("Period 2", 2, PERIOD_TYPE_ALL),
-                new ClassPeriod("Period 3", 3, PERIOD_TYPE_ALL),
-                new ClassPeriod("Period 4", 4, PERIOD_TYPE_ALL),
-                new ClassPeriod("Period 5", 5, PERIOD_TYPE_ALL),
-                new ClassPeriod("Period 6", 6, PERIOD_TYPE_ALL),
-                new ClassPeriod("Period 7", 7, PERIOD_TYPE_ALL),
-                new ClassPeriod("Period 8", 8, PERIOD_TYPE_ALL),
+                new ClassPeriod("Period 1", 1, HALF_TYPE_BOTH),
+                new ClassPeriod("Period 2", 2, HALF_TYPE_BOTH),
+                new ClassPeriod("Period 3", 3, HALF_TYPE_BOTH),
+                new ClassPeriod("Period 4", 4, HALF_TYPE_BOTH),
+                new ClassPeriod("Period 5", 5, HALF_TYPE_BOTH),
+                new ClassPeriod("Period 6", 6, HALF_TYPE_BOTH),
+                new ClassPeriod("Period 7", 7, HALF_TYPE_BOTH),
+                new ClassPeriod("Period 8", 8, HALF_TYPE_BOTH),
         };
     }
 
@@ -104,9 +104,9 @@ public class ClassPeriod{
 
     }
 
-    public boolean isInSession(ClassPeriod c, int dayType) {
-        Date d = Calendar.getInstance().getTime();
-        return d.after(new Date());
+    public boolean isInSession() {
+        Date now = Calendar.getInstance().getTime();
+        return now.after(startTime) && now.before(endTime);
     }
 
     public String getTitle() {
