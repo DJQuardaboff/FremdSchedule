@@ -7,6 +7,7 @@ package com.cbas.spartacrafter.fremdschedule;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.widget.ListView;
 
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
     private String[] sectionNames;
@@ -23,7 +24,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 3;
+        return sectionNames.length;
     }
 
     @Override

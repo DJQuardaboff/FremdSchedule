@@ -5,41 +5,33 @@
 package com.cbas.spartacrafter.fremdschedule;
 
 import android.database.DataSetObserver;
-import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebResourceRequest;
 import android.widget.ListAdapter;
 import android.widget.Toast;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-
 import java.io.File;
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import javax.net.ssl.HttpsURLConnection;
 
 public class ClassListAdapter implements ListAdapter {
-    ClassPeriod[] classPeriods;
+    Schedule schedule;
 
     public ClassListAdapter(int type) {
+        for () {
+
+        }
         try {
-            Document doc = Jsoup.connect("http://fhs.d211.org/").get();
-            doc.getElementById("bell-row-1");
+
         } catch (IOException e) {
-            Toast.makeText(MainActivity.getContext(), "Could not connect to http://fhs.d211.org/.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Main.getContext(), "Could not connect to http://fhs.d211.org/.", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
             throw new RuntimeException("Could not connect to http://fhs.d211.org/: " + e.getMessage());
         }
 
         try {
-            classPeriods = ClassPeriod.getClassPeriodsFromFile(new File(MainActivity.getContext().getFilesDir(), "classPeriods.txt"));
+            classPeriods = Schedule.getClassPeriodsFromFile(new File(Main.getContext().getFilesDir(), "classPeriods.txt"));
         } catch (IOException e) {
-            Toast.makeText(MainActivity.getContext(), "Could not open class period name file.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Main.getContext(), "Could not open class period name file.", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
             throw new RuntimeException("Could not open class period name file: " + e.getMessage());
         }
@@ -69,7 +61,7 @@ public class ClassListAdapter implements ListAdapter {
 
     @Override
     public int getCount() {
-        return 8;
+        return classPeriods.length;
     }
 
     @Override

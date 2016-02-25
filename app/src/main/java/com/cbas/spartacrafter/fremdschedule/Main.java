@@ -10,18 +10,26 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.Date;
+
+public class Main extends AppCompatActivity {
     private ViewPager mViewPager;
     private static Context context;
+    private static String[] classNames;
+    private static String[] scheduleNames;
+    private static int[][] classOrder;
+    private static Date[][] scheduleStartTimes;
+    private static Date[][] scheduleEndTimes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        readScheduleResources();
         setupListViews();
         context = getApplicationContext();
-        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), getResources().getStringArray(R.array.section_names));
+        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), getResources().getStringArray(R.array.schedule_type_names));
         mViewPager = (ViewPager) findViewById(R.id.container);
         TabLayout mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
@@ -33,22 +41,27 @@ public class MainActivity extends AppCompatActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 mViewPager.setCurrentItem(tab.getPosition(), true);
             }
-
             @Override
             public void onTabUnselected(TabLayout.Tab tab) { }
-
             @Override
             public void onTabReselected(TabLayout.Tab tab) { }
         });
     }
 
+    public void readScheduleResources() {
+        classNames = getResources().getStringArray(R.array.default_class_names);
+        scheduleNames = getResources().getStringArray(R.array.schedule_type_names);
+    }
+
     public void setupListViews() {
-        ListView list1 = (ListView) findViewById(R.id.section_1_list);
-        list1.setAdapter(new ClassListAdapter(ClassPeriod.DAY_TYPE_NORMAL));
-        ListView list2 = (ListView) findViewById(R.id.section_2_list);
-        list2.setAdapter(new ClassListAdapter(ClassPeriod.DAY_TYPE_LATE_START));
-        ListView list3 = (ListView) findViewById(R.id.section_3_list);
-        list3.setAdapter(new ClassListAdapter(ClassPeriod.DAY_TYPE_HALF));
+        ListView list1 = (ListView) findViewById(R.id.schedule_1_list);
+        list1.setAdapter(new ClassListAdapter(Schedule.SCHEDULE_TYPE_NORMAL));
+        ListView list2 = (ListView) findViewById(R.id.schedule_2_list);
+        list2.setAdapter(new ClassListAdapter(Schedule.SCHEDULE_TYPE_LATE_START));
+        ListView list3 = (ListView) findViewById(R.id.schedule_3_list);
+        list3.setAdapter(new ClassListAdapter(Schedule.SCHEDULE_TYPE_EARLY_DISMISSAL));
+        ListView list4 = (ListView) findViewById(R.id.schedule_4_list);
+        list4.setAdapter(new ClassListAdapter(Schedule.getCurrentScheduleType()));
     }
 
     @Override
@@ -75,5 +88,25 @@ public class MainActivity extends AppCompatActivity {
 
     public static Context getContext() {
         return context;
+    }
+
+    public static String[] getClassNames() {
+        return classNames;
+    }
+
+    public static String getScheduleName(int scheduleType) {
+        return scheduleNames[scheduleType];
+    }
+
+    public static int[] getClassOrder(int scheduleType) {
+        return classOrder[scheduleType];
+    }
+
+    public static Date[] getScheduleStartTimes(int scheduleType) {
+        return scheduleStartTimes[scheduleType];
+    }
+
+    public static Date[] getScheduleEndTimes(int scheduleType) {
+        return scheduleEndTimes[scheduleType];
     }
 }

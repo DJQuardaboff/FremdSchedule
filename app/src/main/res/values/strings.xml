@@ -1,54 +1,72 @@
 <resources>
     <string name="app_name">Fremd Schedule</string>
     <string name="action_settings">Settings</string>
-    <string name="schedule_1">Normal Schedule</string>
-    <string name="schedule_2">Summer School</string>
-    <string name="schedule_3">Late Start</string>
-    <string name="schedule_4">Early Dismissal</string>
-    <string name="schedule_5">Finals: Day 1</string>
-    <string name="schedule_6">Finals: Day 2</string>
-    <string name="schedule_7">Finals: Day 3</string>
-    <string name="schedule_8">Awards Assembly</string>
-    <string name="schedule_9">Pep Assembly</string>
+    <string-array name="default_class_names">
+        <item>Period 1</item>
+        <item>Period 2</item>
+        <item>Period 3</item>
+        <item>Period 4</item>
+        <item>Period 5</item>
+        <item>Period 6</item>
+        <item>Period 7</item>
+        <item>Period 8</item>
+        <item>Summer School</item>
+        <item>Teacher In-Service</item>
+        <item>Makeup</item>
+        <item>Testing</item>
+        <item>Awards Assembly</item>
+        <item>Pep Assembly</item>
+    </string-array>
     <string-array name="schedule_type_names">
-        <item>@string/schedule_1</item>
-        <item>@string/schedule_2</item>
-        <item>@string/schedule_3</item>
-        <item>@string/schedule_4</item>
-        <item>@string/schedule_5</item>
-        <item>@string/schedule_6</item>
-        <item>@string/schedule_7</item>
-        <item>@string/schedule_8</item>
-        <item>@string/schedule_9</item>
+        <item>Normal Schedule</item>
+        <item>Summer School</item>
+        <item>Late Start</item>
+        <item>Early Dismissal</item>
+        <item>Finals: Day 1</item>
+        <item>Finals: Day 2</item>
+        <item>Finals: Day 3</item>
+        <item>PSAE/ACT</item>
+        <item>PSAE/PLAN</item>
+        <item>Awards Assembly</item>
+        <item>Pep Assembly</item>
     </string-array>
-    <array name="schedule_start_times">
-        <item>@array/schedule_1_start_times</item>
-
-    </array>
-    <string-array name="schedule_1_start_times">
-        <item>7:30 AM</item>
-        <item>8:25 AM</item>
-        <item>9:20 AM</item>
-        <item>10:15 AM</item>
-        <item>11:10 AM</item>
-        <item>12:05 PM</item>
-        <item>1:00 PM</item>
-        <item>1:55 PM</item>
+    <string-array name="schedule_class_order">
+        <item>0|1|2|3|4|5|6|7</item>
+        <item>8</item>
+        <item>9|0|1|2|3|4|5|6|7</item>
+        <item>0|1|2|3|4|5|6|7</item>
+        <item>0|1|2</item>
+        <item>3|4|5</item>
+        <item>6|7|10</item>
+        <item>11</item>
+        <item>11</item>
+        <item>0|1|2|3|4|5|6|7|12</item>
+        <item>0|1|2|3|4|5|6|7|13</item>
     </string-array>
-    <string-array name="schedule_2_start_times">
-        <item></item>
+    <string-array name="schedule_start_times">
+        <item>07:30|08:25|09:20|10:15|11:10|12:05|13:00|13:55</item>
+        <item>07:15</item>
+        <item>07:15|08:50|09:35|10:20|11:05|11:50|12:35|13:20|14:05</item>
+        <item>07:30|08:03|08:37|09:10|09:43|10:16|10:49|11:22</item>
+        <item>07:30|09:10|10:50</item>
+        <item>07:30|09:10|10:50</item>
+        <item>07:30|09:10|10:50</item>
+        <item>07:30</item>
+        <item>07:30</item>
+        <item>07:30|08:25|09:15|10:05|10:55|11:45|12:35|13:25|14:20</item>
+        <item>07:30|08:17|09:04|09:51|10:39|11:27|12:15|13:03|13:50</item>
     </string-array>
-    <array name="schedule_end_times">
-
-    </array>
-    <string-array name="schedule_1_end_times">
-        <item>8:20 AM</item>
-        <item>9:15 AM</item>
-        <item>10:10 AM</item>
-        <item>11:05 AM</item>
-        <item>12:00 PM</item>
-        <item>12:55 PM</item>
-        <item>1:50 PM</item>
-        <item>2:45 PM</item>
+    <string-array name="schedule_end_times">
+        <item>08:20|09:15|10:10|11:05|12:00|12:55|13:50|14:45</item>
+        <item>12:30</item>
+        <item>08:45|09:30|10:15|11:00|11:45|12:30|13:15|14:00|14:45</item>
+        <item>07:58|08:32|09:05|09:38|10:11|10:44|11:17|11:50</item>
+        <item>09:00|10:40|12:20</item>
+        <item>09:00|10:40|12:20</item>
+        <item>09:00|10:40|12:20</item>
+        <item>11:55</item>
+        <item>11:20</item>
+        <item>08:20|09:10|10:00|10:50|11:40|12:30|13:20|14:15|14:45</item>
+        <item>08:12|08:59|09:46|10:34|11:22|12:10|12:58|13:45|14:45</item>
     </string-array>
 </resources>
