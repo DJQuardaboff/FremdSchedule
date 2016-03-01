@@ -4,10 +4,8 @@
 
 package com.cbas.spartacrafter.fremdschedule;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Calendar;
 import java.util.Date;
+import java.util.Timer;
 
 public class Schedule {
     public static final int SCHEDULE_TYPE_NORMAL = 0;
@@ -22,69 +20,45 @@ public class Schedule {
     public static final int SCHEDULE_TYPE_AWARDS_ASSEMBLY = 9;
     public static final int SCHEDULE_TYPE_PEP_ASSEMBLY = 10;
     private int scheduleType;
-    private Date[] startTimes;
-    private Date[] endTimes;
-    private int[] classOrder;
-    private String[] titles;
+    private Timer timer = new Timer();
+    private ClassPeriod[] classes;
 
     public Schedule(int scheduleType) {
         this.scheduleType = scheduleType;
-        startTimes = Main.getScheduleStartTimes(scheduleType);
-        endTimes = Main.getScheduleEndTimes(scheduleType);
-        classOrder = Main.getClassOrder(scheduleType);
-        titles = Main.getClassNames();
-    }
-
-    public static Schedule getClassPeriodsFromFile(File classPeriodFile) throws IOException {
-        /*
-        InputStream inputFile;
-        inputFile = new FileInputStream(classPeriodFile);
-        String[] classNames = new String[16];
-        byte[] classSettings = new byte[16];
-        byte[] buffer = new byte[inputFile.available()];
-        inputFile.read(buffer);
-        TODO finish
-        return null;
-        */
-        return new Schedule(SCHEDULE_TYPE_NORMAL);
-    }
-
-    public int getCurrentScheduleType() {
-        //TODO finish
-        return SCHEDULE_TYPE_NORMAL;
-    }
-
-    public boolean isPeriodActive(int periodIndex) {
-        Date now = Calendar.getInstance().getTime();
-        return now.after(startTimes[periodIndex]) && now.before(endTimes[periodIndex]);
-    }
-
-    public int getActivePeriod() {
-        return activePeriod;
-    }
-
-    public Date getPeriodStartTimes(int periodIndex) {
-        return startTimes[periodIndex];
-    }
-
-    public Date getPeriodEndTime(int periodIndex) {
-        return endTimes[periodIndex];
-    }
-
-    public String getClassTitle(int periodIndex) {
-        return titles[periodIndex];
-    }
-
-    public void setClassTitle(int periodIndex, String title) {
-        titles[periodIndex] = title;
-    }
-
-    @Override
-    public String toString() {
-        String ret = "";
-        for (String classTitle : titles) {
-            ret += classTitle + '\n';
+        String[] titles = Main.getClassNames();
+        int[] order = Main.getClassOrder(scheduleType);
+        Date[] startTimes = Main.getScheduleStartTimes(scheduleType);
+        Date[] endTimes = Main.getScheduleEndTimes(scheduleType);
+        classes = new ClassPeriod[order.length];
+        for (int i = 0; i < classes.length; i++) {
+            classes[i] = new ClassPeriod(titles[order[i]], startTimes[i], endTimes[i]);
+            ClassPeriod c = classes[i];
+            Date d = new Date(c.getStartTime().getTime() + 1000);
+            timer.schedule(c, d);
+            d = new Date(c.getEndTime().getTime() + 1000);
+            timer.schedule(c, d);
         }
-        return ret;
+    }
+
+    public int getSchduleType() {
+        return scheduleType;
+    }
+
+    public int length() {
+        return classes.length;
+    }
+
+    public ClassPeriod getClassPeriod(int periodIndex) {
+        return classes[periodIndex];
+    }
+
+    public ClassPeriod getActivePeriod() {
+        ClassPeriod activeClass = null;
+        for (ClassPeriod c:classes) {
+            if (c.isActive()) {
+                activeClass = c;
+            }
+        }
+        return activeClass;
     }
 }

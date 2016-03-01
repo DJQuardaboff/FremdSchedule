@@ -8,36 +8,13 @@ import android.database.DataSetObserver;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
-import android.widget.Toast;
-
-import java.io.File;
-import java.io.IOException;
 
 public class ClassListAdapter implements ListAdapter {
     Schedule schedule;
 
-    public ClassListAdapter(int type) {
-        for () {
-
-        }
-        try {
-
-        } catch (IOException e) {
-            Toast.makeText(Main.getContext(), "Could not connect to http://fhs.d211.org/.", Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-            throw new RuntimeException("Could not connect to http://fhs.d211.org/: " + e.getMessage());
-        }
-
-        try {
-            classPeriods = Schedule.getClassPeriodsFromFile(new File(Main.getContext().getFilesDir(), "classPeriods.txt"));
-        } catch (IOException e) {
-            Toast.makeText(Main.getContext(), "Could not open class period name file.", Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-            throw new RuntimeException("Could not open class period name file: " + e.getMessage());
-        }
+    public ClassListAdapter(int scheduleType) {
+        schedule = new Schedule(scheduleType);
     }
-
-
 
     @Override
     public boolean areAllItemsEnabled() {
@@ -46,7 +23,7 @@ public class ClassListAdapter implements ListAdapter {
 
     @Override
     public boolean isEnabled(int position) {
-        return classPeriods[position].isInSession();
+        return schedule.getClassPeriod(position).isActive();
     }
 
     @Override
@@ -61,12 +38,12 @@ public class ClassListAdapter implements ListAdapter {
 
     @Override
     public int getCount() {
-        return classPeriods.length;
+        return schedule.length();
     }
 
     @Override
     public Object getItem(int position) {
-        return classPeriods[position];
+        return schedule.getClassPeriod(position);
     }
 
     @Override
@@ -99,6 +76,6 @@ public class ClassListAdapter implements ListAdapter {
 
     @Override
     public boolean isEmpty() {
-        return classPeriods.length == 0;
+        return schedule.length() == 0;
     }
 }

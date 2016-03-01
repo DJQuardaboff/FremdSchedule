@@ -51,6 +51,10 @@ public class Main extends AppCompatActivity {
     public void readScheduleResources() {
         classNames = getResources().getStringArray(R.array.default_class_names);
         scheduleNames = getResources().getStringArray(R.array.schedule_type_names);
+        String[] orders = getResources().getStringArray(R.array.schedule_class_order);
+        for (int i = 0; i < orders.length) {
+
+        }
     }
 
     public void setupListViews() {
@@ -61,7 +65,11 @@ public class Main extends AppCompatActivity {
         ListView list3 = (ListView) findViewById(R.id.schedule_3_list);
         list3.setAdapter(new ClassListAdapter(Schedule.SCHEDULE_TYPE_EARLY_DISMISSAL));
         ListView list4 = (ListView) findViewById(R.id.schedule_4_list);
-        list4.setAdapter(new ClassListAdapter(Schedule.getCurrentScheduleType()));
+        list4.setAdapter(new ClassListAdapter(getCurrentScheduleType()));
+    }
+
+    private int getCurrentScheduleType() {
+
     }
 
     @Override

@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 public class PageFragment extends Fragment {
     public static final String PAGE_NUM = "PAGE_NUM";
