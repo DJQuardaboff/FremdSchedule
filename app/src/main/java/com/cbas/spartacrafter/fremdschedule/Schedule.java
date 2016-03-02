@@ -33,10 +33,8 @@ public class Schedule {
         for (int i = 0; i < classes.length; i++) {
             classes[i] = new ClassPeriod(titles[order[i]], startTimes[i], endTimes[i]);
             ClassPeriod c = classes[i];
-            Date d = new Date(c.getStartTime().getTime() + 1000);
-            timer.schedule(c, d);
-            d = new Date(c.getEndTime().getTime() + 1000);
-            timer.schedule(c, d);
+            timer.schedule(c, new Date(c.getStartTime().getTime() + 1000));
+            timer.schedule(c, new Date(c.getEndTime().getTime() + 1000));
         }
     }
 

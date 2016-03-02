@@ -10,23 +10,32 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+import java.util.regex.Pattern;
 
 public class Main extends AppCompatActivity {
     private ViewPager mViewPager;
     private static Context context;
     private static String[] classNames;
     private static String[] scheduleNames;
-    private static int[][] classOrder;
-    private static Date[][] scheduleStartTimes;
-    private static Date[][] scheduleEndTimes;
+    private static int[][] classOrder = new int[11][9];
+    private static Date[][] scheduleStartTimes = new Date[11][9];
+    private static Date[][] scheduleEndTimes = new Date[11][9];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        readScheduleResources();
+        try {
+            readScheduleResources();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         setupListViews();
         context = getApplicationContext();
         SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), getResources().getStringArray(R.array.schedule_type_names));
@@ -48,12 +57,30 @@ public class Main extends AppCompatActivity {
         });
     }
 
-    public void readScheduleResources() {
+    public void readScheduleResources() throws ParseException {
         classNames = getResources().getStringArray(R.array.default_class_names);
         scheduleNames = getResources().getStringArray(R.array.schedule_type_names);
-        String[] orders = getResources().getStringArray(R.array.schedule_class_order);
-        for (int i = 0; i < orders.length) {
-
+        String[] buffer = getResources().getStringArray(R.array.schedule_class_order);
+        for (int i = 0; i < buffer.length; i++) {
+            String[] order = buffer[i].split(Pattern.quote("|"));
+            for (int j = 0; j < order.length; j++) {
+                classOrder[i][j] = Integer.parseInt(order[j]);
+            }
+        }
+        SimpleDateFormat format = new SimpleDateFormat("kk:mm", Locale.US);
+        buffer = getResources().getStringArray(R.array.schedule_start_times);
+        for (int i = 0; i < buffer.length; i++) {
+            String[] times = buffer[i].split(Pattern.quote("|"));
+            for (int j = 0; j < times.length; j++) {
+                scheduleStartTimes[i][j] = format.parse(times[j]);
+            }
+        }
+        buffer = getResources().getStringArray(R.array.schedule_end_times);
+        for (int i = 0; i < buffer.length; i++) {
+            String[] times = buffer[i].split(Pattern.quote("|"));
+            for (int j = 0; j < times.length; j++) {
+                scheduleEndTimes[i][j] = format.parse(times[j]);
+            }
         }
     }
 
@@ -69,7 +96,7 @@ public class Main extends AppCompatActivity {
     }
 
     private int getCurrentScheduleType() {
-
+        return Schedule.SCHEDULE_TYPE_NORMAL;
     }
 
     @Override
