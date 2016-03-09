@@ -1,4 +1,4 @@
-/*
+/**
  * Created by smith1246 on 2/12/2016.
  */
 
@@ -20,7 +20,7 @@ public class Schedule {
     public static final int SCHEDULE_TYPE_AWARDS_ASSEMBLY = 9;
     public static final int SCHEDULE_TYPE_PEP_ASSEMBLY = 10;
     private int scheduleType;
-    private Timer timer = new Timer();
+    private static Timer timer = new Timer();
     private ClassPeriod[] classes;
 
     public Schedule(int scheduleType) {
@@ -31,10 +31,9 @@ public class Schedule {
         Date[] endTimes = Main.getScheduleEndTimes(scheduleType);
         classes = new ClassPeriod[order.length];
         for (int i = 0; i < classes.length; i++) {
+            if (startTimes[i] == null) break;
             classes[i] = new ClassPeriod(titles[order[i]], startTimes[i], endTimes[i]);
             ClassPeriod c = classes[i];
-            timer.schedule(c, new Date(c.getStartTime().getTime() + 1000));
-            timer.schedule(c, new Date(c.getEndTime().getTime() + 1000));
         }
     }
 

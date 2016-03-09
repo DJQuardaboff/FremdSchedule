@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">Fremd Schedule</string>
     <string name="action_settings">Settings</string>
+    <integer-array name="listViews">
+        <item>@id/schedule_1_list</item>
+        <item>@id/schedule_2_list</item>
+        <item>@id/schedule_3_list</item>
+        <item>@id/schedule_4_list</item>
+    </integer-array>
     <string-array name="default_class_names">
         <item>Period 1</item>
         <item>Period 2</item>

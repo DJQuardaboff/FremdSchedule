@@ -1,13 +1,18 @@
-/*
+/**
  * Created by smith1246 on 2/17/2016.
  */
 
 package com.cbas.spartacrafter.fremdschedule;
 
+import android.app.Activity;
 import android.database.DataSetObserver;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListAdapter;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 public class ClassListAdapter implements ListAdapter {
     Schedule schedule;
@@ -57,21 +62,30 @@ public class ClassListAdapter implements ListAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        //TODO finish
-        return null;
+    public View getView(final int position, View convertView, ViewGroup parent) {
+
+        if (convertView == null) {
+
+            LayoutInflater mInflater = (LayoutInflater) Main.getContext().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+            convertView = mInflater.inflate(R.layout.class_list_item, null);
+
+            TextView title = (TextView) convertView.findViewById(R.id.item_title);
+            TextView subtitle = (TextView) convertView.findViewById(R.id.item_subtitle);
+            ProgressBar progressBar = (ProgressBar) convertView.findViewById(R.id.item_progress);
+        }
+
+        ///#use    return convertView;
+        return convertView;
     }
 
     @Override
     public int getItemViewType(int position) {
-        //TODO finish
         return 0;
     }
 
     @Override
     public int getViewTypeCount() {
-        //TODO finish
-        return 0;
+        return 1;
     }
 
     @Override

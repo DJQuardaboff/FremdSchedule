@@ -1,24 +1,45 @@
-package com.cbas.spartacrafter.fremdschedule;
-
-import java.util.Calendar;
-import java.util.Date;
-import java.util.TimerTask;
-
 /**
  * Created by smith1246 on 2/26/2016.
  */
-public class ClassPeriod extends TimerTask{
+
+package com.cbas.spartacrafter.fremdschedule;
+
+import android.view.View;
+import android.widget.LinearLayout;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
+
+public class ClassPeriod{
     private String title;
-    private final Date startTime;
-    private final Date endTime;
+    private long startTime;
+    private long endTime;
     private boolean isActive;
 
-    public ClassPeriod(String title, Date startTime, Date endTime) {
+    public ClassPeriod(String title, final long startTime, final long endTime) {
         this.title = title;
         this.startTime = startTime;
         this.endTime = endTime;
-        final Date now = Calendar.getInstance().getTime();
-        isActive = now.after(startTime) && now.before(endTime);
+        final long now = Calendar.getInstance(Locale.US).getTime().getTime();
+        Timer t = new Timer("timer");
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                final long now = Calendar.getInstance().getTime().getTime();
+                isActive = now > startTime && now < endTime;
+            }
+        };
+        t.scheduleAtFixedRate(task, startTime - now, TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS));
+        t.scheduleAtFixedRate(task, endTime - now, TimeUnit.MILLISECONDS.convert(1, TimeUnit.DAYS));
+        isActive = now > this.startTime && now < this.endTime;
+    }
+
+    public View getView() {
+        //TODO finish
     }
 
     public boolean isActive() {
@@ -33,16 +54,11 @@ public class ClassPeriod extends TimerTask{
         return title;
     }
 
-    public Date getStartTime() {
+    public long getStartTime() {
         return startTime;
     }
 
-    public Date getEndTime() {
+    public long getEndTime() {
         return endTime;
-    }
-
-    public void run() {
-        final Date now = Calendar.getInstance().getTime();
-        isActive = now.after(startTime) && now.before(endTime);
     }
 }

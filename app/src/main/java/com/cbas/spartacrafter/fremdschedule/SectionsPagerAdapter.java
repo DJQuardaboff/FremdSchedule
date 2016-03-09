@@ -1,4 +1,4 @@
-/*
+/**
  * Created by smith1246 on 2/12/2016.
  */
 
@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
     private String[] sectionNames;
@@ -18,8 +19,8 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     }
 
     @Override
-    public Fragment getItem(int position) {
-        return PageFragment.newInstance(position);
+    public Fragment getItem(int pos) {
+        return PageFragment.newInstance(pos);
     }
 
     @Override
