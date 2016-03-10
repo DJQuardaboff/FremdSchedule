@@ -6,30 +6,27 @@ package com.cbas.spartacrafter.fremdschedule;
 
 import android.content.Context;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
 public class Main extends AppCompatActivity {
     private ViewPager mViewPager;
-    TabLayout mTabLayout;
+    private TabLayout mTabLayout;
     private static Context context;
     private static String[] classNames;
     private static String[] scheduleNames;
-    private static short[][] classOrder = new short[11][9];
+    private static int[][] classOrder = new int[11][9];
     private static long[][] scheduleStartTimes = new long[11][9];
     private static long[][] scheduleEndTimes = new long[11][9];
 
@@ -75,7 +72,7 @@ public class Main extends AppCompatActivity {
         for (int i = 0; i < buffer.length; i++) {
             String[] order = buffer[i].split(Pattern.quote("|"));
             for (int j = 0; j < order.length; j++) {
-                classOrder[i][j] = Short.parseShort(order[j]);
+                classOrder[i][j] = Integer.parseInt(order[j]);
             }
         }
         buffer = getResources().getStringArray(R.array.schedule_start_times);
@@ -125,15 +122,15 @@ public class Main extends AppCompatActivity {
         return context;
     }
 
-    public static String[] getClassNames() {
-        return classNames;
+    public static String getClassName(int i) {
+        return classNames[i];
     }
 
     public static String getScheduleName(int scheduleType) {
         return scheduleNames[scheduleType];
     }
 
-    public static short[] getClassOrder(int scheduleType) {
+    public static int[] getClassOrder(int scheduleType) {
         return classOrder[scheduleType];
     }
 

@@ -32,17 +32,20 @@ public class PageFragment extends Fragment {
         View v;
         switch (getArguments().getInt(PAGE_NUM)) {
             case 0:
-                v = inflater.inflate(R.layout.fragment_section_1, container, false);
-                ((ListView) v.findViewById(R.id.schedule_1_list)).setAdapter(new ClassListAdapter(Schedule.SCHEDULE_TYPE_NORMAL));
+                v = inflater.inflate(R.layout.schedule_fragment, container, false);
+                ((ListView) v.findViewById(R.id.scheduleList)).setAdapter(new ClassListAdapter(Schedule.SCHEDULE_TYPE_NORMAL));
                 return v;
             case 1:
-                v = inflater.inflate(R.layout.fragment_section_2, container, false);
+                v = inflater.inflate(R.layout.schedule_fragment, container, false);
+                ((ListView) v.findViewById(R.id.scheduleList)).setAdapter(new ClassListAdapter(Schedule.SCHEDULE_TYPE_LATE_START));
                 return v;
             case 2:
-                v = inflater.inflate(R.layout.fragment_section_3, container, false);
+                v = inflater.inflate(R.layout.schedule_fragment, container, false);
+                ((ListView) v.findViewById(R.id.scheduleList)).setAdapter(new ClassListAdapter(Schedule.SCHEDULE_TYPE_EARLY_DISMISSAL));
                 return v;
             case 3:
-                v = inflater.inflate(R.layout.fragment_section_4, container, false);
+                v = inflater.inflate(R.layout.schedule_fragment, container, false);
+                ((ListView) v.findViewById(R.id.scheduleList)).setAdapter(new ClassListAdapter(Schedule.SCHEDULE_TYPE_PEP_ASSEMBLY));
                 return v;
         }
         return null;

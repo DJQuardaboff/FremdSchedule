@@ -5,6 +5,7 @@
 package com.cbas.spartacrafter.fremdschedule;
 
 import android.app.Activity;
+import android.content.Context;
 import android.database.DataSetObserver;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +16,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class ClassListAdapter implements ListAdapter {
-    Schedule schedule;
+    private Schedule schedule;
+    private LayoutInflater inflater = (LayoutInflater) Main.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
     public ClassListAdapter(int scheduleType) {
         schedule = new Schedule(scheduleType);
@@ -63,19 +65,7 @@ public class ClassListAdapter implements ListAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-
-        if (convertView == null) {
-
-            LayoutInflater mInflater = (LayoutInflater) Main.getContext().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-            convertView = mInflater.inflate(R.layout.class_list_item, null);
-
-            TextView title = (TextView) convertView.findViewById(R.id.item_title);
-            TextView subtitle = (TextView) convertView.findViewById(R.id.item_subtitle);
-            ProgressBar progressBar = (ProgressBar) convertView.findViewById(R.id.item_progress);
-        }
-
-        ///#use    return convertView;
-        return convertView;
+        return schedule.getClassPeriod(position).getView(inflater, parent);
     }
 
     @Override

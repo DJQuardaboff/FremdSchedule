@@ -4,8 +4,10 @@
 
 package com.cbas.spartacrafter.fremdschedule;
 
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 public class Schedule {
     public static final int SCHEDULE_TYPE_NORMAL = 0;
@@ -19,22 +21,23 @@ public class Schedule {
     public static final int SCHEDULE_TYPE_PSAE_PLAN = 8;
     public static final int SCHEDULE_TYPE_AWARDS_ASSEMBLY = 9;
     public static final int SCHEDULE_TYPE_PEP_ASSEMBLY = 10;
-    private int scheduleType;
     private static Timer timer = new Timer();
-    private ClassPeriod[] classes;
+    private ArrayList<ClassPeriod> classes = new ArrayList<>();
+    private int scheduleType;
 
     public Schedule(int scheduleType) {
         this.scheduleType = scheduleType;
-        String[] titles = Main.getClassNames();
         int[] order = Main.getClassOrder(scheduleType);
-        Date[] startTimes = Main.getScheduleStartTimes(scheduleType);
-        Date[] endTimes = Main.getScheduleEndTimes(scheduleType);
-        classes = new ClassPeriod[order.length];
-        for (int i = 0; i < classes.length; i++) {
-            if (startTimes[i] == null) break;
-            classes[i] = new ClassPeriod(titles[order[i]], startTimes[i], endTimes[i]);
-            ClassPeriod c = classes[i];
+        long[] startTimes = Main.getScheduleStartTimes(scheduleType);
+        long[] endTimes = Main.getScheduleEndTimes(scheduleType);
+        for (int i = 0; order[i] > 1; i++) {
+            classes.set(i, new ClassPeriod(order[i], i, startTimes[i], endTimes[i]));
+            scheduleUpdates(i);
         }
+    }
+
+    public void scheduleUpdates(int periodNum) {
+        timer.schedule(classes.get(periodNum).updateTask, 0, 60000);
     }
 
     public int getSchduleType() {
@@ -42,11 +45,11 @@ public class Schedule {
     }
 
     public int length() {
-        return classes.length;
+        return classes.size();
     }
 
     public ClassPeriod getClassPeriod(int periodIndex) {
-        return classes[periodIndex];
+        return classes.get(periodIndex);
     }
 
     public ClassPeriod getActivePeriod() {
@@ -57,5 +60,9 @@ public class Schedule {
             }
         }
         return activeClass;
+    }
+
+    public static Timer getTimer() {
+        return timer;
     }
 }
