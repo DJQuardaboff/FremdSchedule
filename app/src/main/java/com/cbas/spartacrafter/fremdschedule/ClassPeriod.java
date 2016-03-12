@@ -24,7 +24,6 @@ public class ClassPeriod {
     private String subtitle;
     private boolean isActive;
     private ProgressBar progressView;
-    private final int periodNum;
     private final long startTime;
     private final long endTime;
     public final TimerTask updateTask = new TimerTask() {
@@ -35,7 +34,6 @@ public class ClassPeriod {
     };
 
     public ClassPeriod(int classNum, int periodNum, final long startTime, final long endTime) {
-        this.periodNum = periodNum;
         this.startTime = startTime;
         this.endTime = endTime;
         this.title = Main.getClassName(classNum);
