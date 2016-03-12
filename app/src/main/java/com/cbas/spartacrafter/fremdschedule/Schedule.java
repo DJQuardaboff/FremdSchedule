@@ -30,13 +30,17 @@ public class Schedule {
         int[] order = Main.getClassOrder(scheduleType);
         long[] startTimes = Main.getScheduleStartTimes(scheduleType);
         long[] endTimes = Main.getScheduleEndTimes(scheduleType);
-        for (int i = 0; order[i] > 1; i++) {
-            classes.set(i, new ClassPeriod(order[i], i, startTimes[i], endTimes[i]));
-            scheduleUpdates(i);
+        for (int i = 0; (i < order.length) && (order[i] > -1); i++) {
+            classes.add(new ClassPeriod(order[i], i, startTimes[i], endTimes[i]));
+            //scheduleUpdate(i);
+        }
+    }public void scheduleUpdates() {
+        for(int i = 0; i < classes.size(); i++) {
+            scheduleUpdate(i);
         }
     }
 
-    public void scheduleUpdates(int periodNum) {
+    public void scheduleUpdate(int periodNum) {
         timer.schedule(classes.get(periodNum).updateTask, 0, 60000);
     }
 
@@ -44,7 +48,7 @@ public class Schedule {
         return scheduleType;
     }
 
-    public int length() {
+    public int size() {
         return classes.size();
     }
 

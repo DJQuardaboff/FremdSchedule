@@ -23,6 +23,7 @@ import java.util.regex.Pattern;
 public class Main extends AppCompatActivity {
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
+    private static float displayScale;
     private static Context context;
     private static String[] classNames;
     private static String[] scheduleNames;
@@ -34,6 +35,8 @@ public class Main extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        context = getApplicationContext();
+        displayScale = context.getResources().getDisplayMetrics().density;
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         try {
             readScheduleResources();
@@ -41,7 +44,6 @@ public class Main extends AppCompatActivity {
             e.printStackTrace();
             throw new RuntimeException("Could not read resources: " + e.getMessage());
         }
-        context = getApplicationContext();
         SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), new String[]{scheduleNames[0], scheduleNames[2], scheduleNames[3], scheduleNames[10]});
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -140,5 +142,9 @@ public class Main extends AppCompatActivity {
 
     public static long[] getScheduleEndTimes(int scheduleType) {
         return scheduleEndTimes[scheduleType];
+    }
+
+    public static int getDP(int pixles) {
+        return (int) (pixles * displayScale + 0.5f);
     }
 }

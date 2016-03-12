@@ -5,25 +5,27 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="android.support.v4.app.Fragment"
-    android:id="@+id/classListItem">
+    android:theme="@style/AppTheme"
+    tools:context="android.support.v4.app.Fragment">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/itemTitle"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Sample text" />
+        android:textColor="@android:color/primary_text_light"
+        android:layout_marginLeft="16dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/itemSubtitle"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Samplier text"
         android:layout_gravity="end"
         android:layout_below="@id/itemTitle"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:textColor="@android:color/tertiary_text_light"
+        android:layout_marginRight="16dp" />
 
     <ProgressBar
         style="?android:attr/progressBarStyleHorizontal"
@@ -32,20 +34,26 @@
         android:id="@+id/itemProgress"
         android:progressDrawable="@drawable/blue_progress"
         android:layout_below="@id/itemSubtitle"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp" />
 
     <TextClock
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/itemStartTime"
         android:layout_below="@id/itemProgress"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textColor="@android:color/secondary_text_light"
+        android:layout_marginLeft="16dp" />
 
     <TextClock
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/itemEndTime"
         android:layout_below="@id/itemProgress"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:textColor="@android:color/secondary_text_light"
+        android:layout_marginRight="16dp" />
 
 </RelativeLayout>
