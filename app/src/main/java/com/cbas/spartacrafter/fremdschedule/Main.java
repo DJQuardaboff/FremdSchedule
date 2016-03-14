@@ -12,8 +12,6 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -64,7 +62,6 @@ public class Main extends AppCompatActivity {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-        //setupListViews();
     }
 
     public void readScheduleResources() throws ParseException {
@@ -78,7 +75,7 @@ public class Main extends AppCompatActivity {
             }
         }
         buffer = getResources().getStringArray(R.array.schedule_start_times);
-        SimpleDateFormat format = new SimpleDateFormat("kk:mm", Locale.US);
+        SimpleDateFormat format = new SimpleDateFormat("kk:mm");
         for (int i = 0; i < buffer.length; i++) {
             String[] times = buffer[i].split(Pattern.quote("|"));
             for (int j = 0; j < times.length; j++) {
@@ -107,17 +104,10 @@ public class Main extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+        // Handle action bar item clicks here. The action bar will automatically handle clicks on the Home/Up button, so long as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        return id == R.id.action_settings || super.onOptionsItemSelected(item);
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     public static Context getContext() {

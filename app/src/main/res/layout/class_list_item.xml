@@ -1,59 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/AppTheme"
-    tools:context="android.support.v4.app.Fragment">
+    card_view:cardUseCompatPadding="true"
+    card_view:cardCornerRadius="@dimen/cardview_default_radius"
+    card_view:elevation="@dimen/cardview_default_elevation"
+    tools:context="android.support.v4.app.Fragment"
+    style="@style/CardView.Light">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/itemTitle"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@android:color/primary_text_light"
-        android:layout_marginLeft="16dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/itemSubtitle"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_gravity="end"
-        android:layout_below="@id/itemTitle"
-        android:layout_alignParentEnd="true"
-        android:textColor="@android:color/tertiary_text_light"
-        android:layout_marginRight="16dp" />
-
-    <ProgressBar
-        style="?android:attr/progressBarStyleHorizontal"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:id="@+id/itemProgress"
-        android:progressDrawable="@drawable/blue_progress"
-        android:layout_below="@id/itemSubtitle"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp" />
+        android:layout_height="match_parent"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
 
-    <TextClock
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/itemStartTime"
-        android:layout_below="@id/itemProgress"
-        android:layout_alignParentStart="true"
-        android:textColor="@android:color/secondary_text_light"
-        android:layout_marginLeft="16dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/itemTitle"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@android:color/primary_text_light"
+            android:paddingBottom="8dp"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp" />
 
-    <TextClock
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/itemEndTime"
-        android:layout_below="@id/itemProgress"
-        android:layout_alignParentEnd="true"
-        android:textColor="@android:color/secondary_text_light"
-        android:layout_marginRight="16dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/itemTitle"
+            android:id="@+id/itemSubtitle"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_alignParentEnd="true"
+            android:textColor="@android:color/tertiary_text_light"
+            android:paddingBottom="8dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp" />
 
-</RelativeLayout>
+        <ProgressBar
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:id="@+id/itemProgress"
+            android:progressDrawable="@drawable/blue_progress"
+            android:layout_below="@id/itemSubtitle"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp" />
+
+        <TextClock
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/itemStartTime"
+            android:layout_below="@id/itemProgress"
+            android:layout_alignParentStart="true"
+            android:textColor="@android:color/secondary_text_light"
+            android:layout_marginStart="16dp" />
+
+        <TextClock
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/itemEndTime"
+            android:layout_below="@id/itemProgress"
+            android:layout_alignParentEnd="true"
+            android:textColor="@android:color/secondary_text_light"
+            android:layout_marginEnd="16dp" />
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

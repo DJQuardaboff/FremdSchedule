@@ -5,23 +5,22 @@
 package com.cbas.spartacrafter.fremdschedule;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
-import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
 
-public class ClassPeriod {
+public class ClassPeriod extends RecyclerView.ViewHolder{
     private String title;
-    private String subtitle;
+    private final String subtitle;
+    private final int periodNum;
     private boolean isActive;
     private ProgressBar progressView;
     private final long startTime;
@@ -34,32 +33,42 @@ public class ClassPeriod {
     };
 
     public ClassPeriod(int classNum, int periodNum, final long startTime, final long endTime) {
+        super(((LayoutInflater) Main.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.class_list_item, null));
+        this.periodNum = periodNum;
         this.startTime = startTime;
         this.endTime = endTime;
         this.title = Main.getClassName(classNum);
-        subtitle = "Period " + periodNum;
+        subtitle = "Period " + (periodNum + 1);
+    }
+
+    public void setupView() {
+        ((TextView) super.itemView.findViewById(R.id.itemTitle)).setText(title);
+        ((TextView) super.itemView.findViewById(R.id.itemSubtitle)).setText(subtitle);
+        ((TextView) super.itemView.findViewById(R.id.itemStartTime)).setText(Long.toString(startTime));
+        ((TextView) super.itemView.findViewById(R.id.itemEndTime)).setText(Long.toString(endTime));
+        progressView = (ProgressBar) super.itemView.findViewById(R.id.itemProgress);
+        update();
     }
 
     public void update() {
-        final long now = Calendar.getInstance().getTime().getTime();
+        final long now = System.currentTimeMillis();
         isActive = now > startTime && now < endTime;
-        if(isActive() && progressView != null) {
-            progressView.setProgress((int) (100 * (now - startTime) / (endTime - startTime)));
+        if (progressView != null) {
+            progressView.setProgress(getProgress());
+        } else {
+            progressView = (ProgressBar) super.itemView.findViewById(R.id.itemProgress);
         }
     }
 
-    public View getView(LayoutInflater inflater, ViewGroup parent) {
-        RelativeLayout itemLayout;
-        itemLayout = (RelativeLayout) inflater.inflate(R.layout.class_list_item, parent, false);
-        ((TextView) itemLayout.findViewById(R.id.itemTitle)).setText(title);
-        ((TextView) itemLayout.findViewById(R.id.itemSubtitle)).setText(subtitle);
-        progressView = (ProgressBar) itemLayout.findViewById(R.id.itemProgress);
-        update();
-        return itemLayout;
-    }
+
 
     public int getProgress() {
-        return progressView.getProgress();
+        final long now = System.currentTimeMillis();
+        return ((now < startTime) ? (0) : ((now < endTime) ? ((int) (100 * (now - startTime) / (endTime - startTime))) : (100)));
+    }
+
+    public int getPeriodNum() {
+        return periodNum;
     }
 
     public boolean isActive() {
