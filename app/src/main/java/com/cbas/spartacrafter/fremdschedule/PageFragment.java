@@ -18,7 +18,7 @@ import android.widget.RelativeLayout;
 public class PageFragment extends Fragment {
     public static final String PAGE_NUM = "PAGE_NUM";
 
-    public static PageFragment newInstance(int pageNum) {
+    public static PageFragment newInstance(int pageNum, String title) {
         Bundle args = new Bundle();
         args.putInt(PAGE_NUM, pageNum);
         PageFragment fragment = new PageFragment();
