@@ -19,10 +19,10 @@ import java.util.Locale;
 import java.util.regex.Pattern;
 
 public class Main extends AppCompatActivity {
+    private static Context context;
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
     private static float displayScale;
-    private static Context context;
     private static String[] classNames;
     private static String[] scheduleNames;
     private static int[][] classOrder = new int[11][9];
@@ -32,6 +32,7 @@ public class Main extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        System.out.println("onCreate()");
         setContentView(R.layout.activity_main);
         context = getApplicationContext();
         displayScale = context.getResources().getDisplayMetrics().density;
@@ -64,6 +65,44 @@ public class Main extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        System.out.println("onStart()");
+        context = getApplicationContext();
+        //TODO finish
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        System.out.println("onResume()");
+        context = getApplicationContext();
+        //TODO finish
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        System.out.println("onPause()");
+        context = null;
+        //TODO finish
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        System.out.println("onStop()");
+        //TODO finish
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        System.out.println("onDestroy()");
+        //TODO finish
+    }
+
     public void readScheduleResources() throws ParseException {
         classNames = getResources().getStringArray(R.array.default_class_names);
         scheduleNames = getResources().getStringArray(R.array.schedule_type_names);
@@ -75,7 +114,7 @@ public class Main extends AppCompatActivity {
             }
         }
         buffer = getResources().getStringArray(R.array.schedule_start_times);
-        SimpleDateFormat format = new SimpleDateFormat("kk:mm");
+        SimpleDateFormat format = new SimpleDateFormat("kk:mm", Locale.getDefault());
         for (int i = 0; i < buffer.length; i++) {
             String[] times = buffer[i].split(Pattern.quote("|"));
             for (int j = 0; j < times.length; j++) {

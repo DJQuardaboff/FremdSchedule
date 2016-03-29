@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
+    private PageFragment[] pages;
     private String[] sectionNames;
 
     public SectionsPagerAdapter(FragmentManager fm, String[] sectionNames) {
@@ -28,6 +29,6 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return sectionNames[position];
+        return pages[position].getti;
     }
 }
