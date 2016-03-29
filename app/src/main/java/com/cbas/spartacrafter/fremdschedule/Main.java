@@ -18,32 +18,42 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 public class Main extends AppCompatActivity {
-    private static Context context;
-    private ViewPager mViewPager;
-    private TabLayout mTabLayout;
-    private static float displayScale;
     private static String[] classNames;
     private static String[] scheduleNames;
     private static int[][] classOrder = new int[11][9];
     private static long[][] scheduleStartTimes = new long[11][9];
     private static long[][] scheduleEndTimes = new long[11][9];
+    private static int currentScheduleType = -1;
+    private static SectionsPagerAdapter mSectionsPagerAdapter;
+    private static ViewPager mViewPager;
+    private static TabLayout mTabLayout;
+    private static Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         System.out.println("onCreate()");
         setContentView(R.layout.activity_main);
-        context = getApplicationContext();
-        displayScale = context.getResources().getDisplayMetrics().density;
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
         try {
             readScheduleResources();
         } catch (ParseException e) {
             e.printStackTrace();
             throw new RuntimeException("Could not read resources: " + e.getMessage());
         }
-        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), new String[]{scheduleNames[0], scheduleNames[2], scheduleNames[3], scheduleNames[10]});
+        context = getApplicationContext();
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), new int[]{0, 2, 3, 10});
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
@@ -65,20 +75,11 @@ public class Main extends AppCompatActivity {
         });
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        System.out.println("onStart()");
-        context = getApplicationContext();
-        //TODO finish
-    }
 
-    @Override
+    /*@Override
     public void onResume() {
         super.onResume();
         System.out.println("onResume()");
-        context = getApplicationContext();
-        //TODO finish
     }
 
     @Override
@@ -86,20 +87,29 @@ public class Main extends AppCompatActivity {
         super.onPause();
         System.out.println("onPause()");
         context = null;
-        //TODO finish
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        System.out.println("onStop()");
-        //TODO finish
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         System.out.println("onDestroy()");
+    }*/
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        System.out.println("onStop()");
+        context = null;
+        mSectionsPagerAdapter = null;
+        mViewPager = null;
+        mTabLayout = null;
+        //TODO finish
+    }
+
+    @Override
+    public void onRestart() {
+        super.onRestart();
+        System.out.println("onRestart()");
         //TODO finish
     }
 
@@ -131,6 +141,9 @@ public class Main extends AppCompatActivity {
     }
 
     private int getCurrentScheduleType() {
+        if(currentScheduleType == -1) {
+            Document document = Jsoup.connect("http://fhs.d211.org/info/bell-schedule/").get();
+        }
         return Schedule.SCHEDULE_TYPE_NORMAL;
     }
 
@@ -143,14 +156,11 @@ public class Main extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will automatically handle clicks on the Home/Up button, so long as you specify a parent activity in AndroidManifest.xml.
+        // Handle action bar item clicks here.
+        // The action bar will automatically handle clicks on the Home/Up button, so long as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         return id == R.id.action_settings || super.onOptionsItemSelected(item);
 
-    }
-
-    public static Context getContext() {
-        return context;
     }
 
     public static String getClassName(int i) {
@@ -174,6 +184,10 @@ public class Main extends AppCompatActivity {
     }
 
     public static int getDP(int pixles) {
-        return (int) (pixles * displayScale + 0.5f);
+        return (int) (pixles * getContext().getResources().getDisplayMetrics().density + 0.5f);
+    }
+
+    public static Context getContext() {
+        return context;
     }
 }

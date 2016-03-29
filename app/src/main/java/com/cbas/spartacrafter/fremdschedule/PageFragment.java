@@ -16,11 +16,11 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 public class PageFragment extends Fragment {
-    public static final String PAGE_NUM = "PAGE_NUM";
+    public static final String SCHEDULE_TYPE = "SCHEDULE_TYPE";
 
-    public static PageFragment newInstance(int pageNum, String title) {
+    public static PageFragment newInstance(int scheduleType) {
         Bundle args = new Bundle();
-        args.putInt(PAGE_NUM, pageNum);
+        args.putInt(SCHEDULE_TYPE, scheduleType);
         PageFragment fragment = new PageFragment();
         fragment.setArguments(args);
         return fragment;
@@ -33,25 +33,16 @@ public class PageFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final RelativeLayout v = (RelativeLayout) inflater.inflate(R.layout.schedule_fragment, container, false);
-        final RecyclerView recyclerView = ((RecyclerView) v.findViewById(R.id.scheduleList));
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(Main.getContext());
+        final RelativeLayout view = (RelativeLayout) inflater.inflate(R.layout.schedule_fragment, container, false);
+        final RecyclerView recyclerView = ((RecyclerView) view.findViewById(R.id.scheduleList));
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(inflater.getContext());//Main.getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
-        switch (getArguments().getInt(PAGE_NUM)) {
-            case 0:
-                recyclerView.setAdapter(new ClassListAdapter(Schedule.SCHEDULE_TYPE_NORMAL));
-                return v;
-            case 1:
-                recyclerView.setAdapter(new ClassListAdapter(Schedule.SCHEDULE_TYPE_LATE_START));
-                return v;
-            case 2:
-                recyclerView.setAdapter(new ClassListAdapter(Schedule.SCHEDULE_TYPE_EARLY_DISMISSAL));
-                return v;
-            case 3:
-                recyclerView.setAdapter(new ClassListAdapter(Schedule.SCHEDULE_TYPE_PEP_ASSEMBLY));
-                return v;
-        }
-        return null;
+        recyclerView.setAdapter(new ClassListAdapter(getArguments().getInt(SCHEDULE_TYPE)));
+        return view;
+    }
+
+    public int getScheduleType() {
+        return getArguments().getInt(SCHEDULE_TYPE);
     }
 }

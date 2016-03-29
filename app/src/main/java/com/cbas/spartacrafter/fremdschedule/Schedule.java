@@ -21,9 +21,9 @@ public class Schedule {
     public static final int SCHEDULE_TYPE_PSAE_PLAN = 8;
     public static final int SCHEDULE_TYPE_AWARDS_ASSEMBLY = 9;
     public static final int SCHEDULE_TYPE_PEP_ASSEMBLY = 10;
-    private static Timer timer = new Timer();
     private ArrayList<ClassPeriod> classes = new ArrayList<>();
     private int scheduleType;
+    //private static Timer timer = new Timer();
 
     public Schedule(int scheduleType) {
         this.scheduleType = scheduleType;
@@ -34,14 +34,6 @@ public class Schedule {
             classes.add(new ClassPeriod(order[i], i, startTimes[i], endTimes[i]));
             //scheduleUpdate(i);
         }
-    }public void scheduleUpdates() {
-        for(int i = 0; i < classes.size(); i++) {
-            scheduleUpdate(i);
-        }
-    }
-
-    public void scheduleUpdate(int periodNum) {
-        timer.schedule(classes.get(periodNum).updateTask, 0, 60000);
     }
 
     public int getSchduleType() {
@@ -66,7 +58,17 @@ public class Schedule {
         return activeClass;
     }
 
+    /*public void scheduleUpdates() {
+        for(int i = 0; i < classes.size(); i++) {
+            scheduleUpdate(i);
+        }
+    }
+
+    public void scheduleUpdate(int periodNum) {
+        timer.schedule(classes.get(periodNum).updateTask, 0, 60000);
+    }
+
     public static Timer getTimer() {
         return timer;
-    }
+    }*/
 }

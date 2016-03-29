@@ -10,25 +10,45 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
     private PageFragment[] pages;
-    private String[] sectionNames;
 
-    public SectionsPagerAdapter(FragmentManager fm, String[] sectionNames) {
+    public SectionsPagerAdapter(FragmentManager fm, int[] sectionTypes) {
         super(fm);
-        this.sectionNames = sectionNames;
+        pages = new PageFragment[sectionTypes.length];
+        createPages(sectionTypes);
+    }
+
+    public void createPages(int[] titles) {
+        for(int i = 0; i < pages.length; i++) {
+            createPage(i, titles[i]);
+        }
+    }
+
+    public void createPage(int pos, int scheduleType) {
+        pages[pos] = PageFragment.newInstance(scheduleType);
+    }
+
+    public void destroyPages() {
+        for(int i = 0; i < pages.length; i++) {
+            destroyPage(i);
+        }
+    }
+
+    public void destroyPage(int pos) {
+        pages[pos] = null;
     }
 
     @Override
     public Fragment getItem(int pos) {
-        return PageFragment.newInstance(pos);
+        return pages[pos];
     }
 
     @Override
     public int getCount() {
-        return sectionNames.length;
+        return pages.length;
     }
 
     @Override
-    public CharSequence getPageTitle(int position) {
-        return pages[position].getti;
+    public CharSequence getPageTitle(int pos) {
+        return Main.getScheduleName(pages[pos].getScheduleType());
     }
 }
