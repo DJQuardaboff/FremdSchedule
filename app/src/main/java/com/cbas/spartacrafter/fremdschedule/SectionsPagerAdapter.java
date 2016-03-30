@@ -11,7 +11,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
     private PageFragment[] pages;
 
-    public SectionsPagerAdapter(FragmentManager fm, int[] sectionTypes) {
+    public SectionsPagerAdapter(FragmentManager fm, int... sectionTypes) {
         super(fm);
         pages = new PageFragment[sectionTypes.length];
         createPages(sectionTypes);
@@ -25,6 +25,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     public void createPage(int pos, int scheduleType) {
         pages[pos] = PageFragment.newInstance(scheduleType);
+        System.out.println("Page " + (pos + 1) + " created");
     }
 
     public void destroyPages() {

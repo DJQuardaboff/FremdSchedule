@@ -5,6 +5,10 @@
 package com.cbas.spartacrafter.fremdschedule;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.wifi.WifiManager;
+import android.os.AsyncTask;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,7 +16,9 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -24,16 +30,17 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public class Main extends AppCompatActivity {
+    private static final String FREMD_URL = "http://fhs.d211.org/info/bell-schedule/";
     private static String[] classNames;
     private static String[] scheduleNames;
     private static int[][] classOrder = new int[11][9];
     private static long[][] scheduleStartTimes = new long[11][9];
     private static long[][] scheduleEndTimes = new long[11][9];
     private static int currentScheduleType = -1;
+    private static Context context;
     private static SectionsPagerAdapter mSectionsPagerAdapter;
     private static ViewPager mViewPager;
     private static TabLayout mTabLayout;
-    private static Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +59,9 @@ public class Main extends AppCompatActivity {
             e.printStackTrace();
             throw new RuntimeException("Could not read resources: " + e.getMessage());
         }
+        updateCurrentScheduleType();
         context = getApplicationContext();
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), new int[]{0, 2, 3, 10});
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), 0, 2, 3, 10);
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
@@ -140,11 +148,22 @@ public class Main extends AppCompatActivity {
         }
     }
 
-    private int getCurrentScheduleType() {
-        if(currentScheduleType == -1) {
-            Document document = Jsoup.connect("http://fhs.d211.org/info/bell-schedule/").get();
+    private void updateCurrentScheduleType() {
+        //WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        //wifiManager
+        ConnectivityManager connMgr = (ConnectivityManager)
+            getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            new DownloadWebpageTask().execute(FREMD_URL);
+            System.out.println("It has internet access");
+        } else {
+
         }
-        return Schedule.SCHEDULE_TYPE_NORMAL;
+    }
+
+    private int getCurrentScheduleType() {
+        return currentScheduleType;
     }
 
     @Override
@@ -189,5 +208,26 @@ public class Main extends AppCompatActivity {
 
     public static Context getContext() {
         return context;
+    }
+
+    private class DownloadWebpageTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... urls) {
+            // params comes from the execute() call: params[0] is the url.
+            try {
+                Document document = Jsoup.connect(urls[0]).get();
+                Element scheduleName = document.getElementsByClass("bell-banner").get(0);
+                System.out.println(scheduleName.data());
+                return scheduleName.data();
+            } catch (IOException e) {
+                Toast.makeText(getApplicationContext(), "Could not connect to" + FREMD_URL +": " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                return "Unable to retrieve web page. URL may be invalid.";
+            }
+        }
+        // onPostExecute displays the results of the AsyncTask.
+        @Override
+        protected void onPostExecute(String result) {
+            System.out.println(result);
+        }
     }
 }
