@@ -13,43 +13,39 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     public SectionsPagerAdapter(FragmentManager fm, int... sectionTypes) {
         super(fm);
+        System.out.println("public SectionsPagerAdapter(FragmentManager fm, int[] sectionTypes)");
         pages = new PageFragment[sectionTypes.length];
         createPages(sectionTypes);
     }
 
-    public void createPages(int[] titles) {
+    public void createPages(int[] sectionTypes) {
+        System.out.println("public void createPages(int[] sectionTypes)");
         for(int i = 0; i < pages.length; i++) {
-            createPage(i, titles[i]);
+            createPage(i, sectionTypes[i]);
         }
     }
 
     public void createPage(int pos, int scheduleType) {
+        System.out.println("public void createPage(int pos, int scheduleType)");
         pages[pos] = PageFragment.newInstance(scheduleType);
         System.out.println("Page " + (pos + 1) + " created");
     }
 
-    public void destroyPages() {
-        for(int i = 0; i < pages.length; i++) {
-            destroyPage(i);
-        }
-    }
-
-    public void destroyPage(int pos) {
-        pages[pos] = null;
-    }
-
     @Override
     public Fragment getItem(int pos) {
+        System.out.println("public Fragment getItem(int pos)");
         return pages[pos];
     }
 
     @Override
     public int getCount() {
+        System.out.println("public int getCount()");
         return pages.length;
     }
 
     @Override
     public CharSequence getPageTitle(int pos) {
+        System.out.println("public CharSequence getPageTitle(int pos)");
         return Main.getScheduleName(pages[pos].getScheduleType());
     }
 }

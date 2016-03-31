@@ -26,8 +26,6 @@ import java.util.regex.Pattern;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 public class Main extends AppCompatActivity {
     private static final String FREMD_URL = "http://fhs.d211.org/info/bell-schedule/";
@@ -48,11 +46,6 @@ public class Main extends AppCompatActivity {
         System.out.println("onCreate()");
         setContentView(R.layout.activity_main);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
         try {
             readScheduleResources();
         } catch (ParseException e) {
@@ -83,44 +76,6 @@ public class Main extends AppCompatActivity {
         });
     }
 
-
-    /*@Override
-    public void onResume() {
-        super.onResume();
-        System.out.println("onResume()");
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        System.out.println("onPause()");
-        context = null;
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        System.out.println("onDestroy()");
-    }*/
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        System.out.println("onStop()");
-        context = null;
-        mSectionsPagerAdapter = null;
-        mViewPager = null;
-        mTabLayout = null;
-        //TODO finish
-    }
-
-    @Override
-    public void onRestart() {
-        super.onRestart();
-        System.out.println("onRestart()");
-        //TODO finish
-    }
-
     public void readScheduleResources() throws ParseException {
         classNames = getResources().getStringArray(R.array.default_class_names);
         scheduleNames = getResources().getStringArray(R.array.schedule_type_names);
@@ -148,6 +103,7 @@ public class Main extends AppCompatActivity {
         }
     }
 
+<<<<<<< HEAD
     private void updateCurrentScheduleType() {
         //WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         //wifiManager
@@ -164,6 +120,13 @@ public class Main extends AppCompatActivity {
 
     private int getCurrentScheduleType() {
         return currentScheduleType;
+=======
+    private int getCurrentScheduleType() {
+        /*if(currentScheduleType == -1) {
+            Document document = Jsoup.connect("http://fhs.d211.org/info/bell-schedule/").get();
+        }*/
+        return Schedule.SCHEDULE_TYPE_NORMAL;
+>>>>>>> origin/master
     }
 
     @Override
