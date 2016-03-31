@@ -26,6 +26,7 @@ import java.util.regex.Pattern;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
 public class Main extends AppCompatActivity {
     private static final String FREMD_URL = "http://fhs.d211.org/info/bell-schedule/";
@@ -103,14 +104,12 @@ public class Main extends AppCompatActivity {
         }
     }
 
-<<<<<<< HEAD
     private void updateCurrentScheduleType() {
         //WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         //wifiManager
-        ConnectivityManager connMgr = (ConnectivityManager)
-            getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnected()) {
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = connMgr.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnected()) {
             new DownloadWebpageTask().execute(FREMD_URL);
             System.out.println("It has internet access");
         } else {
@@ -120,13 +119,6 @@ public class Main extends AppCompatActivity {
 
     private int getCurrentScheduleType() {
         return currentScheduleType;
-=======
-    private int getCurrentScheduleType() {
-        /*if(currentScheduleType == -1) {
-            Document document = Jsoup.connect("http://fhs.d211.org/info/bell-schedule/").get();
-        }*/
-        return Schedule.SCHEDULE_TYPE_NORMAL;
->>>>>>> origin/master
     }
 
     @Override

@@ -39,7 +39,6 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        System.out.println("public int getCount()");
         return pages.length;
     }
 

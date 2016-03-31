@@ -8,6 +8,7 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -32,8 +33,8 @@ public class ClassPeriod extends RecyclerView.ViewHolder{
         }
     };
 
-    public ClassPeriod(int classNum, int periodNum, final long startTime, final long endTime) {
-        super(((LayoutInflater) Main.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.class_list_item, null));
+    public ClassPeriod(int classNum, int periodNum, final long startTime, final long endTime, ViewGroup parent) {
+        super(((LayoutInflater) Main.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.class_list_item, parent));
         this.periodNum = periodNum;
         this.startTime = startTime;
         this.endTime = endTime;

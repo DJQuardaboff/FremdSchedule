@@ -4,6 +4,8 @@
 
 package com.cbas.spartacrafter.fremdschedule;
 
+import android.view.ViewGroup;
+
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -21,18 +23,21 @@ public class Schedule {
     public static final int SCHEDULE_TYPE_PSAE_PLAN = 8;
     public static final int SCHEDULE_TYPE_AWARDS_ASSEMBLY = 9;
     public static final int SCHEDULE_TYPE_PEP_ASSEMBLY = 10;
-    private ArrayList<ClassPeriod> classes = new ArrayList<>();
-    private int scheduleType;
+    private final ClassPeriod[] classes;
+    private final int scheduleType;
+    private final int[] order;
+    private final long[] startTimes;
+    private final long[] endTimes;
     //private static Timer timer = new Timer();
 
     public Schedule(int scheduleType) {
         this.scheduleType = scheduleType;
-        int[] order = Main.getClassOrder(scheduleType);
-        long[] startTimes = Main.getScheduleStartTimes(scheduleType);
-        long[] endTimes = Main.getScheduleEndTimes(scheduleType);
-        for (int i = 0; (i < order.length) && (order[i] > -1); i++) {
-            classes.add(new ClassPeriod(order[i], i, startTimes[i], endTimes[i]));
-            //scheduleUpdate(i);
+        order = Main.getClassOrder(scheduleType);
+        startTimes = Main.getScheduleStartTimes(scheduleType);
+        endTimes = Main.getScheduleEndTimes(scheduleType);
+        classes = new ClassPeriod[order.length];
+        for(int i = 0; i < classes.length; i++) {
+            classes[i] = new ClassPeriod(order[i], i, startTimes[i], endTimes[i], null);
         }
     }
 
@@ -40,12 +45,12 @@ public class Schedule {
         return scheduleType;
     }
 
-    public int size() {
-        return classes.size();
+    public int length() {
+        return classes.length;
     }
 
-    public ClassPeriod getClassPeriod(int periodIndex) {
-        return classes.get(periodIndex);
+    public ClassPeriod getClassPeriod(int periodNum) {
+        return classes[periodNum];
     }
 
     public ClassPeriod getActivePeriod() {
@@ -59,13 +64,13 @@ public class Schedule {
     }
 
     /*public void scheduleUpdates() {
-        for(int i = 0; i < classes.size(); i++) {
+        for(int i = 0; i < classes.length; i++) {
             scheduleUpdate(i);
         }
     }
 
     public void scheduleUpdate(int periodNum) {
-        timer.schedule(classes.get(periodNum).updateTask, 0, 60000);
+        timer.schedule(classes[periodNum].updateTask, 0, 60000);
     }
 
     public static Timer getTimer() {
