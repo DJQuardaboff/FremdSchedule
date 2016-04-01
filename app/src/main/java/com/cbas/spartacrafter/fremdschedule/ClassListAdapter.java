@@ -29,6 +29,7 @@ public class ClassListAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         System.out.println("public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)");
+        schedule.initClassPeriod(viewType, parent);
         return schedule.getClassPeriod(viewType);
     }
 

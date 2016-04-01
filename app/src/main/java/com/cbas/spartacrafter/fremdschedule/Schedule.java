@@ -31,14 +31,17 @@ public class Schedule {
     //private static Timer timer = new Timer();
 
     public Schedule(int scheduleType) {
+        System.out.println("public Schedule(int scheduleType)");
         this.scheduleType = scheduleType;
         order = Main.getClassOrder(scheduleType);
         startTimes = Main.getScheduleStartTimes(scheduleType);
         endTimes = Main.getScheduleEndTimes(scheduleType);
         classes = new ClassPeriod[order.length];
-        for(int i = 0; i < classes.length; i++) {
-            classes[i] = new ClassPeriod(order[i], i, startTimes[i], endTimes[i], null);
-        }
+    }
+
+    public void initClassPeriod(int periodNum, ViewGroup parent) {
+        System.out.println("public void initClassPeriod(int periodNum, ViewGroup parent)");
+        classes[periodNum] = new ClassPeriod(order[periodNum], periodNum, startTimes[periodNum], endTimes[periodNum], parent);
     }
 
     public int getSchduleType() {
@@ -54,6 +57,7 @@ public class Schedule {
     }
 
     public ClassPeriod getActivePeriod() {
+        System.out.println("public ClassPeriod getActivePeriod()");
         ClassPeriod activeClass = null;
         for (ClassPeriod c:classes) {
             if (c.isActive()) {

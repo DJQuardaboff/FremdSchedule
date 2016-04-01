@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 
 public class PageFragment extends Fragment {
     public static final String SCHEDULE_TYPE = "SCHEDULE_TYPE";
+    public static RelativeLayout scheduleView;
 
     public static PageFragment newInstance(int scheduleType) {
         System.out.println("public static PageFragment newInstance(int scheduleType)");
@@ -29,20 +30,23 @@ public class PageFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        System.out.println("public void onCreate(Bundle savedInstanceState)");
         super.onCreate(savedInstanceState);
+        System.out.println("public void onCreate(Bundle savedInstanceState)");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         System.out.println("public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)");
-        final RelativeLayout view = (RelativeLayout) inflater.inflate(R.layout.schedule_fragment, container, false);
-        final RecyclerView recyclerView = ((RecyclerView) view.findViewById(R.id.scheduleList));
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(inflater.getContext());
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(new ClassListAdapter(getArguments().getInt(SCHEDULE_TYPE)));
-        return view;
+        if(scheduleView == null) {
+            scheduleView = (RelativeLayout) inflater.inflate(R.layout.schedule_fragment, container, false);
+            final RecyclerView recyclerView = ((RecyclerView) scheduleView.findViewById(R.id.scheduleList));
+            final LinearLayoutManager layoutManager = new LinearLayoutManager(inflater.getContext());
+            layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setAdapter(new ClassListAdapter(getArguments().getInt(SCHEDULE_TYPE)));
+        }
+        return scheduleView;
     }
 
     public int getScheduleType() {

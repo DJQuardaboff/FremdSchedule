@@ -34,7 +34,8 @@ public class ClassPeriod extends RecyclerView.ViewHolder{
     };
 
     public ClassPeriod(int classNum, int periodNum, final long startTime, final long endTime, ViewGroup parent) {
-        super(((LayoutInflater) Main.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.class_list_item, parent));
+        super(((LayoutInflater) Main.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.class_list_item, parent, false));
+        System.out.println("public ClassPeriod(int classNum, int periodNum, final long startTime, final long endTime, ViewGroup parent)");
         this.periodNum = periodNum;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -43,6 +44,7 @@ public class ClassPeriod extends RecyclerView.ViewHolder{
     }
 
     public void setupView() {
+        System.out.println("public void setupView()");
         ((TextView) super.itemView.findViewById(R.id.itemTitle)).setText(title);
         ((TextView) super.itemView.findViewById(R.id.itemSubtitle)).setText(subtitle);
         ((TextView) super.itemView.findViewById(R.id.itemStartTime)).setText(Long.toString(startTime));
@@ -52,6 +54,7 @@ public class ClassPeriod extends RecyclerView.ViewHolder{
     }
 
     public void update() {
+        System.out.println("public void update()");
         final long now = System.currentTimeMillis();
         isActive = now > startTime && now < endTime;
         if (progressView != null) {
@@ -64,6 +67,7 @@ public class ClassPeriod extends RecyclerView.ViewHolder{
 
 
     public int getProgress() {
+        System.out.println("public int getProgress()");
         final long now = System.currentTimeMillis();
         return ((now < startTime) ? (0) : ((now < endTime) ? ((int) (100 * (now - startTime) / (endTime - startTime))) : (100)));
     }

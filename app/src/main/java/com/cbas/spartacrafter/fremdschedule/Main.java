@@ -32,7 +32,7 @@ public class Main extends AppCompatActivity {
     private static final String FREMD_URL = "http://fhs.d211.org/info/bell-schedule/";
     private static String[] classNames;
     private static String[] scheduleNames;
-    private static int[][] classOrder = new int[11][9];
+    private static String[] classOrder = new String[11];
     private static long[][] scheduleStartTimes = new long[11][9];
     private static long[][] scheduleEndTimes = new long[11][9];
     private static int currentScheduleType = -1;
@@ -80,14 +80,8 @@ public class Main extends AppCompatActivity {
     public void readScheduleResources() throws ParseException {
         classNames = getResources().getStringArray(R.array.default_class_names);
         scheduleNames = getResources().getStringArray(R.array.schedule_type_names);
-        String[] buffer = getResources().getStringArray(R.array.schedule_class_order);
-        for (int i = 0; i < buffer.length; i++) {
-            String[] order = buffer[i].split(Pattern.quote("|"));
-            for (int j = 0; j < order.length; j++) {
-                classOrder[i][j] = Integer.parseInt(order[j]);
-            }
-        }
-        buffer = getResources().getStringArray(R.array.schedule_start_times);
+        classOrder = getResources().getStringArray(R.array.schedule_class_order);
+        String[] buffer = getResources().getStringArray(R.array.schedule_start_times);
         SimpleDateFormat format = new SimpleDateFormat("kk:mm", Locale.getDefault());
         for (int i = 0; i < buffer.length; i++) {
             String[] times = buffer[i].split(Pattern.quote("|"));
@@ -110,7 +104,7 @@ public class Main extends AppCompatActivity {
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = connMgr.getActiveNetworkInfo();
         if (netInfo != null && netInfo.isConnected()) {
-            new DownloadWebpageTask().execute(FREMD_URL);
+            //new DownloadWebpageTask().execute(FREMD_URL);
             System.out.println("It has internet access");
         } else {
 
@@ -146,7 +140,7 @@ public class Main extends AppCompatActivity {
     }
 
     public static int[] getClassOrder(int scheduleType) {
-        return classOrder[scheduleType];
+        return Integer.parseInt(classOrder[scheduleType].split(Pattern.quote("|")));
     }
 
     public static long[] getScheduleStartTimes(int scheduleType) {
@@ -165,7 +159,7 @@ public class Main extends AppCompatActivity {
         return context;
     }
 
-    private class DownloadWebpageTask extends AsyncTask<String, Void, String> {
+    /*private class DownloadWebpageTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... urls) {
             // params comes from the execute() call: params[0] is the url.
@@ -184,5 +178,5 @@ public class Main extends AppCompatActivity {
         protected void onPostExecute(String result) {
             System.out.println(result);
         }
-    }
+    }*/
 }
