@@ -21,6 +21,7 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
@@ -32,7 +33,7 @@ public class Main extends AppCompatActivity {
     private static final String FREMD_URL = "http://fhs.d211.org/info/bell-schedule/";
     private static String[] classNames;
     private static String[] scheduleNames;
-    private static String[] classOrder = new String[11];
+    private static ArrayList<int[]> classOrder = new ArrayList<>();
     private static long[][] scheduleStartTimes = new long[11][9];
     private static long[][] scheduleEndTimes = new long[11][9];
     private static int currentScheduleType = -1;
@@ -80,12 +81,19 @@ public class Main extends AppCompatActivity {
     public void readScheduleResources() throws ParseException {
         classNames = getResources().getStringArray(R.array.default_class_names);
         scheduleNames = getResources().getStringArray(R.array.schedule_type_names);
-        classOrder = getResources().getStringArray(R.array.schedule_class_order);
-        String[] buffer = getResources().getStringArray(R.array.schedule_start_times);
+        String[] buffer = getResources().getStringArray(R.array.schedule_class_order);
+        for(int i = 0; i < buffer.length; i++) {
+            String[] orderBuffer = buffer[i].split(Pattern.quote("|"));
+            classOrder.add(new int[orderBuffer.length]);
+            for (int j = 0; j < orderBuffer.length; j++) {
+                classOrder.get(i)[j] = Integer.parseInt(orderBuffer[j]);
+            }
+        }
+        buffer = getResources().getStringArray(R.array.schedule_start_times);
         SimpleDateFormat format = new SimpleDateFormat("kk:mm", Locale.getDefault());
-        for (int i = 0; i < buffer.length; i++) {
+        for(int i = 0; i < buffer.length; i++) {
             String[] times = buffer[i].split(Pattern.quote("|"));
-            for (int j = 0; j < times.length; j++) {
+            for(int j = 0; j < times.length; j++) {
                 scheduleStartTimes[i][j] = format.parse(times[j]).getTime();
             }
         }
@@ -101,14 +109,14 @@ public class Main extends AppCompatActivity {
     private void updateCurrentScheduleType() {
         //WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         //wifiManager
-        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        /*ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = connMgr.getActiveNetworkInfo();
         if (netInfo != null && netInfo.isConnected()) {
             //new DownloadWebpageTask().execute(FREMD_URL);
             System.out.println("It has internet access");
         } else {
 
-        }
+        }*/
     }
 
     private int getCurrentScheduleType() {
@@ -140,7 +148,7 @@ public class Main extends AppCompatActivity {
     }
 
     public static int[] getClassOrder(int scheduleType) {
-        return Integer.parseInt(classOrder[scheduleType].split(Pattern.quote("|")));
+        return classOrder.get(scheduleType);
     }
 
     public static long[] getScheduleStartTimes(int scheduleType) {
