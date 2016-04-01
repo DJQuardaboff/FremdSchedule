@@ -157,8 +157,8 @@ public class Main extends AppCompatActivity {
         return scheduleEndTimes[scheduleType];
     }
 
-    public static int getDP(int pixles) {
-        return (int) (pixles * getContext().getResources().getDisplayMetrics().density + 0.5f);
+    public static int getDP(int pixels) {
+        return (int) (pixels * getContext().getResources().getDisplayMetrics().density + 0.5f);
     }
 
     public static Context getContext() {
