@@ -11,13 +11,11 @@ public class ClassListAdapter extends RecyclerView.Adapter {
     private Schedule schedule;
 
     public ClassListAdapter(int scheduleType) {
-        System.out.println("public ClassListAdapter(int scheduleType)");
         schedule = new Schedule(scheduleType);
     }
 
     @Override
     public long getItemId(int position) {
-        System.out.println("public long getItemId(int position)");
         return position;
     }
 
@@ -28,14 +26,12 @@ public class ClassListAdapter extends RecyclerView.Adapter {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        System.out.println("public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)");
         schedule.initClassPeriod(viewType, parent);
         return schedule.getClassPeriod(viewType);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        System.out.println("public void onBindViewHolder(RecyclerView.ViewHolder holder, int position)");
         ((ClassPeriod) holder).setupView();
     }
 

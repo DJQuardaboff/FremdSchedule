@@ -12,17 +12,17 @@ import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 public class Schedule {
-    public static final int SCHEDULE_TYPE_NORMAL = 0;
-    public static final int SCHEDULE_TYPE_SUMMER_SCHOOL = 1;
-    public static final int SCHEDULE_TYPE_LATE_START = 2;
-    public static final int SCHEDULE_TYPE_EARLY_DISMISSAL = 3;
-    public static final int SCHEDULE_TYPE_FINALS_DAY_1 = 4;
-    public static final int SCHEDULE_TYPE_FINALS_DAY_2 = 5;
-    public static final int SCHEDULE_TYPE_FINALS_DAY_3 = 6;
-    public static final int SCHEDULE_TYPE_PSAE_ACT = 7;
-    public static final int SCHEDULE_TYPE_PSAE_PLAN = 8;
-    public static final int SCHEDULE_TYPE_AWARDS_ASSEMBLY = 9;
-    public static final int SCHEDULE_TYPE_PEP_ASSEMBLY = 10;
+    public static final int TYPE_NORMAL = 0;
+    public static final int TYPE_SUMMER_SCHOOL = 1;
+    public static final int TYPE_LATE_START = 2;
+    public static final int TYPE_EARLY_DISMISSAL = 3;
+    public static final int TYPE_FINALS_DAY_1 = 4;
+    public static final int TYPE_FINALS_DAY_2 = 5;
+    public static final int TYPE_FINALS_DAY_3 = 6;
+    public static final int TYPE_PSAE_ACT = 7;
+    public static final int TYPE_PSAE_PLAN = 8;
+    public static final int TYPE_AWARDS_ASSEMBLY = 9;
+    public static final int TYPE_PEP_ASSEMBLY = 10;
     private final ClassPeriod[] classes;
     private final int scheduleType;
     private final int[] order;
@@ -31,7 +31,6 @@ public class Schedule {
     //private static Timer timer = new Timer();
 
     public Schedule(int scheduleType) {
-        System.out.println("public Schedule(int scheduleType)");
         this.scheduleType = scheduleType;
         order = Main.getClassOrder(scheduleType);
         startTimes = Main.getScheduleStartTimes(scheduleType);
@@ -40,7 +39,6 @@ public class Schedule {
     }
 
     public void initClassPeriod(int periodNum, ViewGroup parent) {
-        System.out.println("public void initClassPeriod(int periodNum, ViewGroup parent)");
         classes[periodNum] = new ClassPeriod(order[periodNum], periodNum, startTimes[periodNum], endTimes[periodNum], parent);
     }
 
@@ -57,7 +55,6 @@ public class Schedule {
     }
 
     public ClassPeriod getActivePeriod() {
-        System.out.println("public ClassPeriod getActivePeriod()");
         ClassPeriod activeClass = null;
         for (ClassPeriod c:classes) {
             if (c.isActive()) {

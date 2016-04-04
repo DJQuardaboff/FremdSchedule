@@ -31,15 +31,15 @@
         <item>Pep Assembly</item>
     </string-array>
     <string-array name="schedule_class_order">
-        <item>00|01|02|03|04|05|06|07|-1</item>
-        <item>08|-1|-1|-1|-1|-1|-1|-1|-1</item>
+        <item>00|01|02|03|04|05|06|07</item>
+        <item>08</item>
         <item>09|00|01|02|03|04|05|06|07</item>
-        <item>00|01|02|03|04|05|06|07|-1</item>
-        <item>00|01|02|-1|-1|-1|-1|-1|-1</item>
-        <item>03|04|05|-1|-1|-1|-1|-1|-1</item>
-        <item>06|07|10|-1|-1|-1|-1|-1|-1</item>
-        <item>11|-1|-1|-1|-1|-1|-1|-1|-1</item>
-        <item>11|-1|-1|-1|-1|-1|-1|-1|-1</item>
+        <item>00|01|02|03|04|05|06|07</item>
+        <item>00|01|02</item>
+        <item>03|04|05</item>
+        <item>06|07|10</item>
+        <item>11</item>
+        <item>11</item>
         <item>00|01|02|03|04|05|06|07|12</item>
         <item>00|01|02|03|04|05|06|07|13</item>
     </string-array>

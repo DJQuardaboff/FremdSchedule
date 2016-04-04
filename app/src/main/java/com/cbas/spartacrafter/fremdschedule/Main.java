@@ -30,6 +30,7 @@ import org.jsoup.nodes.Element;
 
 public class Main extends AppCompatActivity {
     private static final String FREMD_URL = "http://fhs.d211.org/info/bell-schedule/";
+    private static final String BELL_BANNER_CLASS = "bell-banner";
     private static String[] classNames;
     private static String[] scheduleNames;
     private static String[] classOrder = new String[11];
@@ -44,18 +45,18 @@ public class Main extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        System.out.println("onCreate()");
         setContentView(R.layout.activity_main);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         try {
             readScheduleResources();
         } catch (ParseException e) {
             e.printStackTrace();
+            Toast.makeText(getApplicationContext(), "Could not read resources: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             throw new RuntimeException("Could not read resources: " + e.getMessage());
         }
         updateCurrentScheduleType();
         context = getApplicationContext();
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), 0, 2, 3, 10);
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), Schedule.TYPE_NORMAL, Schedule.TYPE_LATE_START, Schedule.TYPE_EARLY_DISMISSAL, Schedule.TYPE_PEP_ASSEMBLY);
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
@@ -104,7 +105,7 @@ public class Main extends AppCompatActivity {
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = connMgr.getActiveNetworkInfo();
         if (netInfo != null && netInfo.isConnected()) {
-            //new DownloadWebpageTask().execute(FREMD_URL);
+            DownloadWebpageTask task = (DownloadWebpageTask) new DownloadWebpageTask().execute(FREMD_URL);
             System.out.println("It has internet access");
         } else {
 
@@ -140,7 +141,12 @@ public class Main extends AppCompatActivity {
     }
 
     public static int[] getClassOrder(int scheduleType) {
-        return Integer.parseInt(classOrder[scheduleType].split(Pattern.quote("|")));
+        String[] buffer = classOrder[scheduleType].split(Pattern.quote("|"));
+        int[] ret = new int[buffer.length];
+        for(int i = 0; i < ret.length; i++) {
+            ret[i] = Integer.parseInt(buffer[i]);
+        }
+        return ret;
     }
 
     public static long[] getScheduleStartTimes(int scheduleType) {
@@ -159,7 +165,7 @@ public class Main extends AppCompatActivity {
         return context;
     }
 
-    /*private class DownloadWebpageTask extends AsyncTask<String, Void, String> {
+    private class DownloadWebpageTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... urls) {
             // params comes from the execute() call: params[0] is the url.
@@ -169,7 +175,7 @@ public class Main extends AppCompatActivity {
                 System.out.println(scheduleName.data());
                 return scheduleName.data();
             } catch (IOException e) {
-                Toast.makeText(getApplicationContext(), "Could not connect to" + FREMD_URL +": " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Could not connect to \"" + FREMD_URL +"\": " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 return "Unable to retrieve web page. URL may be invalid.";
             }
         }
@@ -178,5 +184,5 @@ public class Main extends AppCompatActivity {
         protected void onPostExecute(String result) {
             System.out.println(result);
         }
-    }*/
+    }
 }
