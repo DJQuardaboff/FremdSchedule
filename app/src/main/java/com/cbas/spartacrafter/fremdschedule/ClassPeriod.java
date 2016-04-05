@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -43,7 +44,9 @@ public class ClassPeriod extends RecyclerView.ViewHolder{
     }
 
     public void setupView() {
+        DateFormat format = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US);
         ((TextView) super.itemView.findViewById(R.id.itemTitle)).setText(title);
+        //((TextView) super.itemView.findViewById(R.id.itemTitle)).setText(title);
         ((TextView) super.itemView.findViewById(R.id.itemSubtitle)).setText(subtitle);
         ((TextView) super.itemView.findViewById(R.id.itemStartTime)).setText(Long.toString(startTime));
         ((TextView) super.itemView.findViewById(R.id.itemEndTime)).setText(Long.toString(endTime));

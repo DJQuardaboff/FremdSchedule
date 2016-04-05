@@ -19,8 +19,11 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
@@ -54,7 +57,7 @@ public class Main extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Could not read resources: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             throw new RuntimeException("Could not read resources: " + e.getMessage());
         }
-        updateCurrentScheduleType();
+        //updateCurrentScheduleType();
         context = getApplicationContext();
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), Schedule.TYPE_NORMAL, Schedule.TYPE_LATE_START, Schedule.TYPE_EARLY_DISMISSAL, Schedule.TYPE_PEP_ASSEMBLY);
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -83,18 +86,19 @@ public class Main extends AppCompatActivity {
         scheduleNames = getResources().getStringArray(R.array.schedule_type_names);
         classOrder = getResources().getStringArray(R.array.schedule_class_order);
         String[] buffer = getResources().getStringArray(R.array.schedule_start_times);
-        SimpleDateFormat format = new SimpleDateFormat("kk:mm", Locale.getDefault());
+        SimpleDateFormat format = new SimpleDateFormat("y-D-kk:mm", Locale.US);
+        Calendar tem = Calendar.getInstance();
         for (int i = 0; i < buffer.length; i++) {
             String[] times = buffer[i].split(Pattern.quote("|"));
             for (int j = 0; j < times.length; j++) {
-                scheduleStartTimes[i][j] = format.parse(times[j]).getTime();
+                scheduleStartTimes[i][j] = format.parse(tem.get(Calendar.YEAR) + "-" + tem.get(Calendar.DAY_OF_YEAR) + "-" + times[j]).getTime();
             }
         }
         buffer = getResources().getStringArray(R.array.schedule_end_times);
         for (int i = 0; i < buffer.length; i++) {
             String[] times = buffer[i].split(Pattern.quote("|"));
             for (int j = 0; j < times.length; j++) {
-                scheduleEndTimes[i][j] = format.parse(times[j]).getTime();
+                scheduleEndTimes[i][j] = format.parse(tem.get(Calendar.YEAR) + "-" + tem.get(Calendar.DAY_OF_YEAR) + "-" + times[j]).getTime();
             }
         }
     }
