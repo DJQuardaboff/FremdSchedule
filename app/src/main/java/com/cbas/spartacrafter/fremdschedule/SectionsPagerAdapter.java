@@ -25,7 +25,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     public void createPage(int pos, int scheduleType) {
         pages[pos] = PageFragment.newInstance(scheduleType);
-        System.out.println("Page " + (pos + 1) + " created with " + Main.getClassName(scheduleType));
+        System.out.println("Page " + (pos + 1) + " created with " + Main.getScheduleName(scheduleType));
     }
 
     @Override

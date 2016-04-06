@@ -5,17 +5,21 @@
 package com.cbas.spartacrafter.fremdschedule;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.menu.MenuView;
 import android.support.v7.widget.Toolbar;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -25,6 +29,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.regex.Pattern;
 
 import org.jsoup.Jsoup;
@@ -39,6 +45,7 @@ public class Main extends AppCompatActivity {
     private static String[] classOrder = new String[11];
     private static long[][] scheduleStartTimes = new long[11][9];
     private static long[][] scheduleEndTimes = new long[11][9];
+    private static DownloadWebpageTask d;
     private static int currentScheduleType = -1;
     private static Context context;
     private static SectionsPagerAdapter mSectionsPagerAdapter;
@@ -57,6 +64,7 @@ public class Main extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Could not read resources: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             throw new RuntimeException("Could not read resources: " + e.getMessage());
         }
+        //d = (DownloadWebpageTask) new DownloadWebpageTask().execute(FREMD_URL);
         //updateCurrentScheduleType();
         context = getApplicationContext();
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), Schedule.TYPE_NORMAL, Schedule.TYPE_LATE_START, Schedule.TYPE_EARLY_DISMISSAL, Schedule.TYPE_PEP_ASSEMBLY);
@@ -109,7 +117,7 @@ public class Main extends AppCompatActivity {
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = connMgr.getActiveNetworkInfo();
         if (netInfo != null && netInfo.isConnected()) {
-            DownloadWebpageTask task = (DownloadWebpageTask) new DownloadWebpageTask().execute(FREMD_URL);
+            new DownloadWebpageTask().execute(FREMD_URL);
             System.out.println("It has internet access");
         } else {
 
@@ -172,7 +180,6 @@ public class Main extends AppCompatActivity {
     private class DownloadWebpageTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... urls) {
-            // params comes from the execute() call: params[0] is the url.
             try {
                 Document document = Jsoup.connect(urls[0]).get();
                 Element scheduleName = document.getElementsByClass("bell-banner").get(0);
