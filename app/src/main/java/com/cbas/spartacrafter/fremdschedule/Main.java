@@ -5,6 +5,7 @@
 package com.cbas.spartacrafter.fremdschedule;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -90,7 +91,15 @@ public class Main extends AppCompatActivity {
     }
 
     public void readScheduleResources() throws ParseException {
-        classNames = getResources().getStringArray(R.array.default_class_names);
+        SharedPreferences p = getPreferences(MODE_PRIVATE);
+        if(getPreferences(MODE_PRIVATE).getBoolean("initialized", false)) {
+            classNames = getResources().getStringArray(R.array.default_class_names);
+        } else {
+            classNames = new String[14];
+            for(int i = 0; i < classNames.length; i++) {
+                classNames[i] = p.getString("period" + (i + 1), "Period " + (i + 1));
+            }
+        }
         scheduleNames = getResources().getStringArray(R.array.schedule_type_names);
         classOrder = getResources().getStringArray(R.array.schedule_class_order);
         String[] buffer = getResources().getStringArray(R.array.schedule_start_times);
@@ -109,6 +118,11 @@ public class Main extends AppCompatActivity {
                 scheduleEndTimes[i][j] = format.parse(tem.get(Calendar.YEAR) + "-" + tem.get(Calendar.DAY_OF_YEAR) + "-" + times[j]).getTime();
             }
         }
+    }
+
+    public void setPeriodName(int periodNum, String name) {
+        getPreferences(MODE_PRIVATE).edit().putString("period" + (periodNum + 1), name);
+        getPreferences(MODE_PRIVATE).edit().commit();
     }
 
     private void updateCurrentScheduleType() {

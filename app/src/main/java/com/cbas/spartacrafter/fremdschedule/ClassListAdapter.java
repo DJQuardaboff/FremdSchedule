@@ -39,4 +39,8 @@ public class ClassListAdapter extends RecyclerView.Adapter {
     public int getItemViewType(int position) {
         return position;
     }
+
+    public Schedule getSchedule() {
+        return schedule;
+    }
 }

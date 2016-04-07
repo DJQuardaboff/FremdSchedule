@@ -28,7 +28,7 @@ public class Schedule {
     private final int[] order;
     private final long[] startTimes;
     private final long[] endTimes;
-    //private static Timer timer = new Timer();
+    private static Timer timer = new Timer();
 
     public Schedule(int scheduleType) {
         this.scheduleType = scheduleType;
@@ -40,6 +40,7 @@ public class Schedule {
 
     public void initClassPeriod(int periodNum, ViewGroup parent) {
         classes[periodNum] = new ClassPeriod(order[periodNum], periodNum, startTimes[periodNum], endTimes[periodNum], parent);
+        scheduleUpdate(periodNum);
     }
 
     public int getSchduleType() {
@@ -64,17 +65,22 @@ public class Schedule {
         return activeClass;
     }
 
-    /*public void scheduleUpdates() {
+    public void removeUpdates() {
+        timer.cancel();
+        timer = new Timer();
+    }
+
+    public void scheduleUpdates() {
         for(int i = 0; i < classes.length; i++) {
             scheduleUpdate(i);
         }
     }
 
     public void scheduleUpdate(int periodNum) {
-        timer.schedule(classes[periodNum].updateTask, 0, 60000);
+        timer.schedule(classes[periodNum].updateTask, periodNum * scheduleType, 1000);
     }
 
     public static Timer getTimer() {
         return timer;
-    }*/
+    }
 }

@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 public class PageFragment extends Fragment {
     public static final String SCHEDULE_TYPE = "SCHEDULE_TYPE";
     public static RelativeLayout scheduleView;
+    private Schedule schedule;
 
     public static PageFragment newInstance(int scheduleType) {
         Bundle args = new Bundle();
@@ -40,11 +41,17 @@ public class PageFragment extends Fragment {
         final LinearLayoutManager layoutManager = new LinearLayoutManager(inflater.getContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(new ClassListAdapter(getArguments().getInt(SCHEDULE_TYPE)));
+        final ClassListAdapter c = new ClassListAdapter(getArguments().getInt(SCHEDULE_TYPE));
+        schedule = c.getSchedule();
+        recyclerView.setAdapter(c);
         return scheduleView;
     }
 
     public int getScheduleType() {
         return getArguments().getInt(SCHEDULE_TYPE);
+    }
+
+    public Schedule getSchedule() {
+        return schedule;
     }
 }

@@ -5,6 +5,7 @@
 package com.cbas.spartacrafter.fremdschedule;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,10 +47,9 @@ public class ClassPeriod extends RecyclerView.ViewHolder{
     public void setupView() {
         DateFormat format = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.US);
         ((TextView) super.itemView.findViewById(R.id.itemTitle)).setText(title);
-        //((TextView) super.itemView.findViewById(R.id.itemTitle)).setText(title);
         ((TextView) super.itemView.findViewById(R.id.itemSubtitle)).setText(subtitle);
-        ((TextView) super.itemView.findViewById(R.id.itemStartTime)).setText(Long.toString(startTime));
-        ((TextView) super.itemView.findViewById(R.id.itemEndTime)).setText(Long.toString(endTime));
+        ((TextView) super.itemView.findViewById(R.id.itemStartTime)).setText(format.format(new Date(startTime)));
+        ((TextView) super.itemView.findViewById(R.id.itemEndTime)).setText(format.format(new Date(endTime)));
         progressView = (ProgressBar) super.itemView.findViewById(R.id.itemProgress);
         update();
     }
@@ -57,11 +57,15 @@ public class ClassPeriod extends RecyclerView.ViewHolder{
     public void update() {
         final long now = System.currentTimeMillis();
         isActive = now > startTime && now < endTime;
-        if (progressView != null) {
-            progressView.setProgress(getProgress());
+        if(isActive){
+            super.itemView.setEnabled(true);
         } else {
+            super.itemView.setEnabled(false);
+        }
+        if(progressView == null) {
             progressView = (ProgressBar) super.itemView.findViewById(R.id.itemProgress);
         }
+        progressView.setProgress(getProgress());
     }
 
 

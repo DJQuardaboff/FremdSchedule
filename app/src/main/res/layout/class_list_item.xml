@@ -50,7 +50,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp" />
 
-        <TextClock
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/itemStartTime"
@@ -59,7 +59,7 @@
             android:textColor="@android:color/secondary_text_light"
             android:layout_marginStart="16dp" />
 
-        <TextClock
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/itemEndTime"

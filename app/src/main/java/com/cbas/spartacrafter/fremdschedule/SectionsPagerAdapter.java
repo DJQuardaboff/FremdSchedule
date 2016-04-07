@@ -7,6 +7,7 @@ package com.cbas.spartacrafter.fremdschedule;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.view.ViewGroup;
 
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
     private PageFragment[] pages;
@@ -17,20 +18,28 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         createPages(sectionTypes);
     }
 
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        pages[position].getSchedule().removeUpdates();
+    }
+
     public void createPages(int[] sectionTypes) {
         for(int i = 0; i < pages.length; i++) {
             createPage(i, sectionTypes[i]);
         }
     }
 
-    public void createPage(int pos, int scheduleType) {
-        pages[pos] = PageFragment.newInstance(scheduleType);
-        System.out.println("Page " + (pos + 1) + " created with " + Main.getScheduleName(scheduleType));
+    public void createPage(int position, int scheduleType) {
+        pages[position] = PageFragment.newInstance(scheduleType);
+        System.out.println("Page " + (position + 1) + " created with " + Main.getScheduleName(scheduleType));
     }
 
     @Override
-    public Fragment getItem(int pos) {
-        return pages[pos];
+    public Fragment getItem(int position) {
+        if(pages[position].getSchedule() != null) {
+            pages[position].getSchedule().scheduleUpdates();
+        }
+        return pages[position];
     }
 
     @Override
